@@ -1,0 +1,15 @@
+{
+  "name": "ppt-gen",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Unified design-system layer for Marp decks",
+  "scripts": {
+    "build:pdf": "python -m ppt_gen.build all quarterly-report",
+    "build:pptx": "python -m ppt_gen.build render quarterly-report --format pptx",
+    "theme:compile": "python -m ppt_gen.theme compile scientific"
+  },
+  "devDependencies": {
+    "@marp-team/marp-cli": "^4.3.1",
+    "@mermaid-js/mermaid-cli": "^11.15.0"
+  }
+}

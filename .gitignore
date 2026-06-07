@@ -1,0 +1,13 @@
+node_modules/
+__pycache__/
+*.py[cod]
+.venv/
+.env
+venv/
+output/
+decks/.build/
+assets/plots/
+assets/diagrams/
+assets/cache/
+*.egg-info/
+.DS_Store

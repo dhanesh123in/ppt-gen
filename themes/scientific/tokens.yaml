@@ -1,0 +1,78 @@
+name: scientific
+variant: dark
+
+canvas:
+  aspect: "16:9"
+  width_px: 1280
+  height_px: 720
+
+colors:
+  background: "#1a1a2e"
+  foreground: "#eaeaea"
+  accent: "#e94560"
+  muted: "#6c6c8a"
+  border: "#3a3a5c"
+  series:
+    - "#4e79a7"
+    - "#f28e2b"
+    - "#e15759"
+    - "#76b7b2"
+    - "#59a14f"
+
+typography:
+  sans: "Helvetica Neue, Arial, sans-serif"
+  mono: "JetBrains Mono, monospace"
+  slide:
+    title_px: 44
+    heading_px: 32
+    body_px: 22
+    caption_px: 16
+  plot:
+    base_pt: 12
+    title_pt: 14
+    tick_pt: 9
+    legend_pt: 9
+  mermaid:
+    font_px: 20
+
+layout:
+  figure_width_frac: 0.85
+  content_padding_px: 48
+  pad_inches: 0.08
+
+branding:
+  footer: "Slides CC BY-SA 4.0 · Code MIT"
+  logo_height_px: 44
+  logo_top_px: 28
+  logo_right_px: 36
+
+plot:
+  dpi: 160
+  linewidth: 2.0
+  markersize: 6
+  grid_alpha: 0.25
+  margins:
+    left: 0.22
+    right: 0.94
+    top: 0.82
+    bottom: 0.20
+
+table:
+  header_bg: "{colors.series.0}"
+  zebra_bg: "{colors.border}"
+  font_px: 18
+
+mermaid:
+  theme: base
+  dark_mode: true
+
+slots:
+  full:
+    width_frac: 0.85
+    height_frac: 0.55
+  half:
+    width_frac: 0.42
+    height_frac: 0.50
+  square:
+    width_frac: 0.45
+    height_frac: 0.45

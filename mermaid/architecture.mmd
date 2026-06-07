@@ -1,0 +1,13 @@
+flowchart LR
+  Tokens[tokens.yaml] --> Compile[theme compile]
+  Compile --> CSS[theme.css]
+  Compile --> MPL[plot.mplstyle]
+  Compile --> MMD[mermaid.json]
+  Deck[decks/*.md] --> Pre[preprocess]
+  CSS --> Marp[Marp CLI]
+  MPL --> Plots[matplotlib]
+  MMD --> Diagrams[mermaid]
+  Pre --> Marp
+  Plots --> Marp
+  Diagrams --> Marp
+  Marp --> PDF[output.pdf]
