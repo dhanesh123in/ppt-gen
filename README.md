@@ -8,6 +8,16 @@ Unified design-system layer for [Marp](https://marp.app/) decks. One `tokens.yam
 
 The logo is generated from theme colors when you compile a theme (`ppt_gen/brand.py`) and appears on every slide.
 
+## Example
+
+The [quarterly-report](decks/quarterly-report.md) deck shows what one `tokens.yaml` can produce: themed matplotlib charts, pandas tables, and Mermaid diagrams in a single PDF.
+
+**[Download quarterly-report.pdf](examples/quarterly-report.pdf)** · [Source markdown](decks/quarterly-report.md)
+
+| Revenue trend | Regional breakdown | Pipeline architecture |
+| :---: | :---: | :---: |
+| ![Revenue trend slide](examples/quarterly-report.002.png) | ![Regional breakdown slide](examples/quarterly-report.003.png) | ![Pipeline architecture slide](examples/quarterly-report.004.png) |
+
 ## Requirements
 
 - Python 3.10+
@@ -30,7 +40,7 @@ python -m ppt_gen.theme compile scientific
 python -m ppt_gen.build all quarterly-report
 ```
 
-Output: `output/quarterly-report.pdf`
+Output: `output/quarterly-report.pdf` (a committed copy lives in `examples/`)
 
 ## Workflow
 
@@ -50,6 +60,7 @@ Slides get a top-right logo and a license footer from `branding` in `tokens.yaml
 themes/scientific/tokens.yaml   # single source of truth
 assets/brand/logo.svg           # generated project logo
 decks/quarterly-report.md       # slide source
+examples/quarterly-report.pdf   # built example for README / demos
 plots/revenue_trend.py          # registered plot functions
 data/                           # CSV data for tables/plots
 ppt_gen/                        # preprocessor + theme compiler
