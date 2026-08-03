@@ -4,13 +4,15 @@
 
 # ppt-gen
 
-Unified design-system layer for [Marp](https://marp.app/) decks. One `tokens.yaml` drives Marpit CSS, matplotlib plots, Mermaid diagrams, and tables.
+Unified design-system layer for [Marp](https://marp.app/) decks. One `tokens.yaml` drives Marpit CSS, Chart.js plots, Mermaid diagrams, and tables.
 
-The logo is generated from theme colors when you compile a theme (`ppt_gen/brand.py`) and appears on every slide.
+The default CLI is **Node ESM** (`bin/ppt-gen.mjs`). The Python package under `ppt_gen/` remains in the tree but is unused by the npm scripts on this branch.
+
+The logo is generated from theme colors when you compile a theme (`lib/brand.mjs`) and appears on every slide.
 
 ## Example
 
-The [quarterly-report](decks/quarterly-report.md) deck shows what one `tokens.yaml` can produce: themed matplotlib charts, pandas tables, and Mermaid diagrams in a single PDF.
+The [quarterly-report](decks/quarterly-report.md) deck shows what one `tokens.yaml` can produce: themed charts, pandas-style tables from CSV, and Mermaid diagrams in a single PDF.
 
 **[Download quarterly-report.pdf](examples/quarterly-report.pdf)** · [Source markdown](decks/quarterly-report.md)
 
@@ -20,37 +22,34 @@ The [quarterly-report](decks/quarterly-report.md) deck shows what one `tokens.ya
 
 ## Requirements
 
-- Python 3.10+
-- Node.js 18+ (for Marp CLI)
+- Node.js 18+
 - Chrome, Edge, or Firefox (required by Marp CLI for PDF/PPTX export)
 
 ## Quick start
 
 ```bash
-# Python dependencies
-pip install -e .
-
-# Node dependencies (Marp CLI + Mermaid CLI for diagram rendering)
 npm install
 
 # Compile theme from tokens
-python -m ppt_gen.theme compile scientific
+npm run theme:compile
 
 # Build example deck (preprocess + PDF)
-python -m ppt_gen.build all quarterly-report
+npm run build:pdf
 ```
+
+Or: `node bin/ppt-gen.mjs all quarterly-report`
 
 Output: `output/quarterly-report.pdf` (a committed copy lives in `examples/`)
 
 ## Workflow
 
 1. Edit `themes/scientific/tokens.yaml` for colors, fonts, layout, and branding
-2. Run `python -m ppt_gen.theme compile scientific`
+2. Run `npm run theme:compile`
 3. Author slides in `decks/*.md` with directives:
-   - `{{plot:revenue_trend}}`
+   - `{{plot:revenue_trend}}` — Chart.js plot in `charts/`
    - `{{table:regions | max_rows=8}}`
    - `{{mermaid:architecture}}`
-4. Run `python -m ppt_gen.build all <deck-name>`
+4. Run `npm run build:pdf` (or `node bin/ppt-gen.mjs all <deck-name>`)
 
 Slides get a top-right logo and a license footer from `branding` in `tokens.yaml` (injected at preprocess time unless the deck sets its own `footer:`).
 
@@ -61,9 +60,11 @@ themes/scientific/tokens.yaml   # single source of truth
 assets/brand/logo.svg           # generated project logo
 decks/quarterly-report.md       # slide source
 examples/quarterly-report.pdf   # built example for README / demos
-plots/revenue_trend.py          # registered plot functions
+charts/revenue_trend.mjs        # Chart.js plot modules
+bin/ppt-gen.mjs                 # CLI entry
+lib/                            # theme compile, preprocess, build
 data/                           # CSV data for tables/plots
-ppt_gen/                        # preprocessor + theme compiler
+ppt_gen/                        # legacy Python (unused by npm scripts)
 ```
 
 ## New theme
@@ -71,7 +72,7 @@ ppt_gen/                        # preprocessor + theme compiler
 ```bash
 cp -r themes/scientific themes/acme
 # edit themes/acme/tokens.yaml
-python -m ppt_gen.theme compile acme
+node bin/ppt-gen.mjs compile-themes
 ```
 
 Set `theme: acme` in deck frontmatter.

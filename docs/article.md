@@ -1,6 +1,6 @@
 # One YAML File to Rule Your Slides: Building a Design System for Markdown Presentations
 
-*Markdown slides, Python charts, one YAML design system — no PowerPoint required.*
+*Markdown slides, Chart.js plots, one YAML design system — no PowerPoint required.*
 
 ![Revenue trend slide from the quarterly-report example deck](../examples/quarterly-report.002.png)
 
@@ -12,7 +12,7 @@ Option one: click through a GUI until the chart colors almost match the slide ba
 
 If you work with data — quarterly reviews, architecture walkthroughs, research updates — you have probably lived this. The slide deck is the deliverable everyone sees. The notebook or script that produced the numbers is the source of truth. And nothing connects them.
 
-I built **ppt-gen** to close that gap: markdown slides you can edit by hand, programmatic charts and tables from real data, and one design token file that keeps everything visually consistent.
+I built **ppt-gen** to close that gap: markdown slides you can edit by hand, programmatic charts and tables from real data, and one design token file that keeps everything visually consistent. The build CLI is Node ESM (`bin/ppt-gen.mjs`); plots use Chart.js.
 
 ---
 
@@ -21,7 +21,7 @@ I built **ppt-gen** to close that gap: markdown slides you can edit by hand, pro
 I wanted a pipeline with a few non-negotiable properties:
 
 1. **Editable source** — slides as text, version-controlled, diffable
-2. **Programmatic assets** — plots and tables generated from CSVs and Python, not screenshots
+2. **Programmatic assets** — plots and tables generated from CSVs and scripts, not screenshots
 3. **One visual language** — the same accent color on a line chart, a table header, and a Mermaid box
 4. **Sensible output** — PDF is fine; I do not need a live animation runtime
 
@@ -31,7 +31,7 @@ I explicitly did *not* want:
 - Quarto or notebook-to-slide magic that hides the slide layer
 - A WYSIWYG tool that breaks the moment you regenerate a chart
 
-[Marp](https://marp.app/) was the right foundation: Markdown in, PDF out, themeable with CSS. What Marp does not give you out of the box is a bridge to matplotlib, pandas, and Mermaid that shares a single design system. That is what ppt-gen adds.
+[Marp](https://marp.app/) was the right foundation: Markdown in, PDF out, themeable with CSS. What Marp does not give you out of the box is a bridge to Chart.js, CSV tables, and Mermaid that shares a single design system. That is what ppt-gen adds.
 
 ---
 
@@ -64,10 +64,10 @@ branding:
   footer: "Slides CC BY-SA 4.0 · Code MIT"
 ```
 
-Run `python -m ppt_gen.theme compile scientific` and that one file becomes:
+Run `npm run theme:compile` and that one file becomes:
 
 - **Marp CSS** — slide layout, typography, table styles, logo placement
-- **matplotlib style** — `.mplstyle` with matching colors and font sizes
+- **Chart defaults** — series colors, fonts, and canvas size for Chart.js plots
 - **Mermaid config** — `themeVariables` for diagram rendering
 
 Change the accent from coral to blue, recompile, rebuild the deck. Every surface updates together. No hunting through three tools.
@@ -114,8 +114,8 @@ That is the entire author-facing API:
 
 | Directive | What it does |
 |-----------|--------------|
-| `{{plot:name}}` | Runs a registered Python plot function, saves a PNG |
-| `{{table:name}}` | Renders a pandas DataFrame as a styled markdown table |
+| `{{plot:name}}` | Runs a registered Chart.js plot module, saves a PNG |
+| `{{table:name}}` | Renders CSV rows as a styled markdown table |
 | `{{mermaid:name}}` | Pre-renders a `.mmd` file to SVG via Mermaid CLI |
 
 The preprocessor expands these before Marp runs. You never hand-maintain image paths or worry about stale charts.
@@ -124,18 +124,30 @@ The preprocessor expands these before Marp runs. You never hand-maintain image p
 
 ## Plots that know about slide geometry
 
-Each plot is a small Python function registered by name:
+Each plot is a small JavaScript module registered by name:
 
-```python
-@register("revenue_trend")
-def render(ctx: SlideContext):
-    fig, ax = ctx.figure()
-    df = ctx.data.get("quarterly")
-    ax.plot(df["month"], df["revenue_m"], color=ctx.color(0), marker="o")
-    ax.set_title("Revenue trend")
-    ax.set_ylabel("Revenue (M)")
-    finalize_line_chart(fig, ax, ctx.tokens, legend_position="upper-left")
-    return fig
+```javascript
+register("revenue_trend", async (ctx) => {
+  const rows = ctx.data.quarterly;
+  return renderChartPng(ctx, () => ({
+    type: "line",
+    data: {
+      labels: rows.map((r) => r.month),
+      datasets: [{
+        label: "Revenue",
+        data: rows.map((r) => r.revenue_m),
+        borderColor: ctx.color(0),
+      }],
+    },
+    options: {
+      plugins: { title: { text: "Revenue trend" } },
+      scales: {
+        x: { title: { text: "Month" } },
+        y: { title: { text: "Revenue (M)" } },
+      },
+    },
+  }));
+});
 ```
 
 `SlideContext` reads the same tokens as the slide theme: figure size comes from layout slots (`full`, `half`, `square`), colors from the series palette, fonts from the plot typography block. The chart is sized for a 1280×720 slide at 85% width — not a generic notebook figure you shrink in PowerPoint.
@@ -147,14 +159,17 @@ Caching is content-addressed: if the plot source, data shape, or tokens have not
 ## One build command
 
 ```bash
-pip install -e .
 npm install
-python -m ppt_gen.build all quarterly-report
+npm run build:pdf
+```
+
+```bash
+node bin/ppt-gen.mjs all quarterly-report
 ```
 
 Under the hood:
 
-1. **Compile themes** — `tokens.yaml` → CSS, mplstyle, mermaid.json, generated logo
+1. **Compile themes** — `tokens.yaml` → CSS, mermaid.json, generated logo
 2. **Preprocess** — expand directives, inject license footer from branding tokens
 3. **Render** — Marp CLI produces `output/quarterly-report.pdf`
 
@@ -200,7 +215,7 @@ The title slide and summary use the same theme, logo, and license footer — onl
 
 ppt-gen fits if you:
 
-- Already live in Markdown, Python, and git
+- Already live in Markdown, JavaScript/Node, and git
 - Ship recurring decks (quarterly metrics, eng reviews, course material)
 - Care that charts and slides look like they came from the same template
 - Want PDF output without maintaining a `.pptx` by hand
@@ -227,9 +242,8 @@ The architecture is intentionally boring: tokens compile to artifacts, a preproc
 ```bash
 git clone https://github.com/dhanesh123in/ppt-gen.git
 cd ppt-gen
-pip install -e .
 npm install
-python -m ppt_gen.build all quarterly-report
+npm run build:pdf
 open output/quarterly-report.pdf
 ```
 

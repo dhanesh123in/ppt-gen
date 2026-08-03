@@ -2,11 +2,22 @@
   "name": "ppt-gen",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "description": "Unified design-system layer for Marp decks",
+  "bin": {
+    "ppt-gen": "./bin/ppt-gen.mjs"
+  },
   "scripts": {
-    "build:pdf": "python -m ppt_gen.build all quarterly-report",
-    "build:pptx": "python -m ppt_gen.build render quarterly-report --format pptx",
-    "theme:compile": "python -m ppt_gen.theme compile scientific"
+    "ppt-gen": "node bin/ppt-gen.mjs",
+    "build:pdf": "node bin/ppt-gen.mjs all quarterly-report",
+    "build:pptx": "node bin/ppt-gen.mjs render quarterly-report --format pptx",
+    "theme:compile": "node bin/ppt-gen.mjs compile-themes"
+  },
+  "dependencies": {
+    "@napi-rs/canvas": "^0.1.80",
+    "chart.js": "^4.5.0",
+    "csv-parse": "^6.1.0",
+    "yaml": "^2.8.0"
   },
   "devDependencies": {
     "@marp-team/marp-cli": "^4.3.1",
