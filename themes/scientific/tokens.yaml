@@ -36,7 +36,7 @@ typography:
     font_px: 20
 
 layout:
-  figure_width_frac: 0.85
+  figure_width_frac: 0.90
   content_padding_px: 48
   pad_inches: 0.08
 
@@ -68,11 +68,11 @@ mermaid:
 
 slots:
   full:
-    width_frac: 0.85
-    height_frac: 0.55
+    width_frac: 0.90
+    height_frac: 0.50
   half:
     width_frac: 0.42
-    height_frac: 0.50
+    height_frac: 0.42
   square:
-    width_frac: 0.45
-    height_frac: 0.45
+    width_frac: 0.42
+    height_frac: 0.42

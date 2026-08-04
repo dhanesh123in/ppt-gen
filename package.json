@@ -9,14 +9,16 @@
   },
   "scripts": {
     "ppt-gen": "node bin/ppt-gen.mjs",
-    "build:pdf": "node bin/ppt-gen.mjs all quarterly-report",
-    "build:pptx": "node bin/ppt-gen.mjs render quarterly-report --format pptx",
+    "build:pdf": "node bin/ppt-gen.mjs all decks/demo.md --engine marp",
+    "build:pptx": "node bin/ppt-gen.mjs all decks/demo.md --format pptx --engine constructs",
+    "build:constructs": "node bin/ppt-gen.mjs constructs decks/demo.md",
     "theme:compile": "node bin/ppt-gen.mjs compile-themes"
   },
   "dependencies": {
     "@napi-rs/canvas": "^0.1.80",
     "chart.js": "^4.5.0",
     "csv-parse": "^6.1.0",
+    "pptxgenjs": "^3.12.0",
     "yaml": "^2.8.0"
   },
   "devDependencies": {

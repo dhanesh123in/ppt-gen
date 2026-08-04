@@ -6,19 +6,54 @@
 
 Unified design-system layer for [Marp](https://marp.app/) decks. One `tokens.yaml` drives Marpit CSS, Chart.js plots, Mermaid diagrams, and tables.
 
-The default CLI is **Node ESM** (`bin/ppt-gen.mjs`). The Python package under `ppt_gen/` remains in the tree but is unused by the npm scripts on this branch.
+The CLI is **Node ESM** (`bin/ppt-gen.mjs`): Chart.js for plots, CSV → markdown/PPTX tables, Mermaid CLI for diagrams, pptxgenjs for visual constructs.
 
 The logo is generated from theme colors when you compile a theme (`lib/brand.mjs`) and appears on every slide.
 
 ## Example
 
-The [quarterly-report](decks/quarterly-report.md) deck shows what one `tokens.yaml` can produce: themed charts, pandas-style tables from CSV, and Mermaid diagrams in a single PDF.
+The [demo](decks/demo.md) deck is the single source example: Q1 charts/tables/diagrams plus the product-data roadmap constructs.
 
-**[Download quarterly-report.pdf](examples/quarterly-report.pdf)** · [Source markdown](decks/quarterly-report.md)
+**[Download demo.pptx](examples/demo.pptx)** · [Source markdown](decks/demo.md)
 
 | Revenue trend | Regional breakdown | Pipeline architecture |
 | :---: | :---: | :---: |
 | ![Revenue trend slide](examples/quarterly-report.002.png) | ![Regional breakdown slide](examples/quarterly-report.003.png) | ![Pipeline architecture slide](examples/quarterly-report.004.png) |
+
+## Visual constructs (shared markdown)
+
+Roadmap / idea slides use the **same Markdown file** as data slides, with fenced construct blocks:
+
+````markdown
+---
+theme: scientific
+engine: auto          # auto | marp | constructs
+title: Product data roadmap
+footerLabel: "PRODUCT  ·  DATA ROADMAP"
+---
+
+::: construct roadmapPhases
+title: Sequence the roadmap
+phases:
+  - k: 0–90 DAYS
+    name: Prove the signal
+    color: coral
+    outs: [MVP, Baseline]
+:::
+````
+
+- `engine: auto` (default) → **pptxgenjs** if any `::: construct` blocks exist, else **Marp**
+- `{{plot}}` / `{{table}}` / `{{mermaid}}` expand on both engines (PPTX embeds images/tables)
+- Color names in YAML (`coral`, `blue`, `cyan`, `lime`, `series.0`, …) resolve from scientific tokens
+
+```bash
+npm run build:constructs
+# or: node bin/ppt-gen.mjs all decks/demo.md
+```
+
+Output: [`examples/demo.pptx`](examples/demo.pptx) · source [`decks/demo.md`](decks/demo.md)
+
+Helpers: `lib/constructs/` · IR parser: `lib/ir/`
 
 ## Requirements
 
@@ -33,20 +68,23 @@ npm install
 # Compile theme from tokens
 npm run theme:compile
 
-# Build example deck (preprocess + PDF)
+# Build example deck (Marp PDF — constructs as markdown fallbacks)
 npm run build:pdf
+
+# Build full hybrid PPTX (plots + constructs)
+npm run build:constructs
 ```
 
-Or: `node bin/ppt-gen.mjs all quarterly-report`
+Or: `node bin/ppt-gen.mjs all decks/demo.md`
 
-Output: `output/quarterly-report.pdf` (a committed copy lives in `examples/`)
+Output: `output/demo.pptx` (a committed copy lives in `examples/`)
 
 ## Workflow
 
 1. Edit `themes/scientific/tokens.yaml` for colors, fonts, layout, and branding
 2. Run `npm run theme:compile`
 3. Author slides in `decks/*.md` with directives:
-   - `{{plot:revenue_trend}}` — Chart.js plot in `charts/`
+   - `{{plot:quarterly | type=line | x=month | y=revenue_m}}` — Chart.js from `data/*.csv`
    - `{{table:regions | max_rows=8}}`
    - `{{mermaid:architecture}}`
 4. Run `npm run build:pdf` (or `node bin/ppt-gen.mjs all <deck-name>`)
@@ -58,13 +96,13 @@ Slides get a top-right logo and a license footer from `branding` in `tokens.yaml
 ```
 themes/scientific/tokens.yaml   # single source of truth
 assets/brand/logo.svg           # generated project logo
-decks/quarterly-report.md       # slide source
-examples/quarterly-report.pdf   # built example for README / demos
-charts/revenue_trend.mjs        # Chart.js plot modules
+decks/demo.md                   # Q1 data + roadmap constructs (single source)
+lib/ir/                         # markdown → IR → marp | pptxgenjs
+lib/constructs/                 # box/chip/roadmap/… helpers
+examples/                       # committed PDF / PPTX demos
+data/*.csv                      # plot + table sources ({{plot:name}} / {{table:name}})
 bin/ppt-gen.mjs                 # CLI entry
-lib/                            # theme compile, preprocess, build
-data/                           # CSV data for tables/plots
-ppt_gen/                        # legacy Python (unused by npm scripts)
+lib/                            # theme compile, preprocess, build, constructs
 ```
 
 ## New theme
