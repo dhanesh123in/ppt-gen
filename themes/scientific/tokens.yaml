@@ -61,7 +61,12 @@ space:
 
 branding:
   footer: "Slides CC BY-SA 4.0 · Code MIT"
+  # Optional custom mark (SVG/PNG/JPEG). Paths resolve from theme dir,
+  # assets/brand/, or repo root. Omit to use the generated ppt-gen mark.
+  # logo: my-logo.svg
+  # logo: false          # hide logo
   logo_height_px: 44
+  logo_width_px: 44
   logo_top_px: 28
   logo_right_px: 36
 

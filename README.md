@@ -164,6 +164,33 @@ Edit tokens (colors, typography, plot fonts, spacing, branding), then:
 npm run theme:compile
 ```
 
+### Custom logo
+
+Put a mark in `assets/brand/` (or the theme folder) and point tokens at it:
+
+```yaml
+# themes/acme/tokens.yaml
+branding:
+  logo: acme-mark.png          # also: ../assets/brand/acme-mark.png
+  logo_height_px: 48
+  logo_width_px: 120           # optional; defaults to height (square)
+  logo_top_px: 28
+  logo_right_px: 36
+  footer: "Acme · Confidential"
+```
+
+Or override per deck:
+
+```yaml
+---
+theme: scientific
+logo: assets/brand/acme-mark.png
+# logo: false                  # hide the mark
+---
+```
+
+Omit `logo` to keep the generated ppt-gen mark. After changing theme logos, re-run `npm run theme:compile` for Marp CSS; constructs PPTX picks the file up at build time.
+
 ### New theme
 
 ```bash
@@ -173,6 +200,46 @@ node bin/ppt-gen.mjs compile-themes
 ```
 
 Set `theme: acme` in deck frontmatter (or pass `--theme acme`).
+
+## Images in layouts
+
+Use any of `image`, `picture`, `photo`, or `media` (string path or `{ path | plot | mermaid }`). Paths resolve from the repo root, `assets/`, `assets/brand/`, or the active theme directory.
+
+| Layout | How to attach a picture |
+|--------|-------------------------|
+| `cover` | `panel: photo` + `image: assets/hero.png` |
+| `split` / `split-reverse` | `media: assets/photo.jpg` or `media: { plot: regions, type: bar, … }` |
+| `title-body` | optional `image:` → text left / picture right |
+| `callout` | optional `image:` beside the quote |
+| `section` | optional `image:` under the title |
+| `figure-focus` / `chart-callout` | `media:` / `image:` fills the content area |
+| `list-cards` | per-item `image:` thumbnail |
+
+Example:
+
+````markdown
+::: layout cover
+title: Launch day
+panel: photo
+image: assets/brand/hero.jpg
+:::
+
+::: layout title-body
+title: Field notes
+items:
+  - Latency under load
+  - Error budget burn
+image: assets/screenshots/dashboard.png
+:::
+
+::: layout list-cards
+title: Surfaces
+items:
+  - label: Mobile
+    detail: iOS + Android
+    image: assets/icons/mobile.png
+:::
+````
 
 ## Workflow
 

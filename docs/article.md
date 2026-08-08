@@ -189,7 +189,7 @@ Also available: [quarterly-report.pdf](../examples/quarterly-report.pdf).
 
 **Title slides vs. content slides.** Content slides top-align titles like PowerPoint section headers. Title slides stay vertically centered. That came down to Marp theme CSS — flex layout, `place-content: start`, and a `@theme` directive that must be on its own line (a subtle gotcha that caused the default theme to load instead of yours).
 
-**Logo without broken paths.** The generated SVG is embedded in theme CSS as a data URI so Marp does not need to resolve relative file paths at render time.
+**Logo without broken paths.** Drop a custom SVG/PNG in `assets/brand/` (or set `branding.logo` / frontmatter `logo:`). The file is embedded in Marp CSS as a data URI and painted on pptxgenjs slides; omit it to keep the generated mark.
 
 **Offline diagrams.** Mermaid is pre-rendered with `@mermaid-js/mermaid-cli`, themed from the same tokens. No live JS in the PDF.
 
