@@ -8,6 +8,7 @@ output/
 decks/.build/
 assets/plots/
 assets/diagrams/
+assets/math/
 assets/cache/
 *.egg-info/
 .DS_Store
