@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "description": "Unified design-system layer for Marp decks",
+  "description": "Design-system layer for Marp + pptxgenjs decks (tokens, Chart.js plots, layouts)",
   "bin": {
     "ppt-gen": "./bin/ppt-gen.mjs"
   },
