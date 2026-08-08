@@ -47,15 +47,25 @@ Asia Pacific leads on growth; North America still carries the revenue base.
 
 ---
 
+## Learning rate
+
+The discrete update behind our experiment cadence:
+
+$$L_{t+1} = L_t + \\alpha (R_t - L_t)$$
+
+Holdouts keep $\\alpha$ honest.
+
+---
+
 ## Summary
 
 - Unified theme drives Marp CSS, plots, and diagrams
-- Construct layouts share the same tokens and markdown source
+- Layout catalog shares tokens, fit engine, and markdown source
 - Edit this file and run `npm run build:constructs` or `npm run build:pdf`
 
 ---
 
-::: construct cover
+::: layout cover
 eyebrow: Strategy
 title: |
   A practical roadmap
@@ -63,16 +73,22 @@ title: |
 subtitle: Connect discovery, delivery and measurement into one learning system over 12–18 months.
 chip: ROADMAP
 meta: For product, data and engineering leaders
-footerLabel: "PRODUCT  ·  DATA ROADMAP"
+panel: signals
 signalLabels: [CUSTOMER, PRODUCT, CHANNEL]
 :::
 
 ---
 
-::: construct twoColumnThesis
+::: layout section
+title: Argument
+subtitle: From fragmented signals to a decision fabric
+:::
+
+---
+
+::: layout comparison
 title: Every release should make the next decision sharper
 subtitle: Move from fragmented metrics to a shared decision fabric.
-footerLabel: "PRODUCT  ·  DATA ROADMAP"
 left:
   label: Today
   headline: Signals live in silos
@@ -92,68 +108,111 @@ northStar: Faster learning with fewer wasted bets
 
 ---
 
-::: construct journeyColumns
+::: layout list-cards
 title: Prioritize use cases that compound across the journey
 subtitle: Start where decisions are frequent, measurable and owned.
-footerLabel: "PRODUCT  ·  DATA ROADMAP"
-columns:
-  - head: DISCOVER
+items:
+  - label: DISCOVER
+    detail: Audience insight · Opportunity sizing
     color: cyan
-    items:
-      - Audience insight
-      - Opportunity sizing
-  - head: CONSIDER
+  - label: CONSIDER
+    detail: Personalized content · Fit / intent scoring
     color: blue
-    items:
-      - Personalized content
-      - Fit / intent scoring
-  - head: ACTIVATE
+  - label: ACTIVATE
+    detail: Next-best offer · In-product guidance
     color: coral
-    items:
-      - Next-best offer
-      - In-product guidance
-  - head: RETAIN
+  - label: RETAIN
+    detail: Churn early warning · Expansion plays
     color: lime
-    items:
-      - Churn early warning
-      - Expansion plays
-signalsLabel: Shared decision signals
-signals:
-  - Identity
-  - Product context
-  - Channel state
-  - Inventory / capacity
-  - Experiment exposure
 :::
 
 ---
 
-::: construct roadmapPhases
+::: layout big-number
+title: Pilot outcomes in the first 90 days
+subtitle: Directional readouts from the reactivation squad
+items:
+  - label: Lift
+    value: +9%
+    detail: Incremental reactivation
+  - label: Speed
+    value: 11d
+    detail: Idea → live holdout
+  - label: Coverage
+    value: 64%
+    detail: Identified journeys
+  - label: Waste
+    value: −18%
+    detail: Low-margin offers
+:::
+
+---
+
+::: layout split
+title: Revenue concentration still favors NA
+subtitle: Growth is elsewhere — sequence capacity accordingly
+items:
+  - North America is 42% of revenue
+  - Asia Pacific leads growth at 14.8%
+  - Channel mix still web-heavy
+media:
+  plot: regions
+  type: bar
+  x: region
+  y: revenue_m
+:::
+
+---
+
+::: layout matrix2x2
+title: Portfolio is overweight in question marks
+subtitle: Rebalance toward proven retention plays
+axes:
+  x: Relative capability
+  y: Learning value
+quadrants:
+  tl: Bet
+  tr: Scale
+  bl: Pause
+  br: Optimize
+items:
+  - label: Reactivation
+    quadrant: tr
+  - label: Next-best offer
+    quadrant: tl
+  - label: Vanity NPS dash
+    quadrant: bl
+  - label: Taxonomy MVP
+    quadrant: br
+:::
+
+---
+
+::: layout roadmap
 title: "Sequence: prove the signal, scale decisions, then optimize"
 subtitle: Each phase ships a production decision and a measurement design.
-footerLabel: "PRODUCT  ·  DATA ROADMAP"
-phases:
-  - k: 0–90 DAYS
-    name: Prove the signal
+items:
+  - horizon: 0–90 DAYS
+    label: Prove the signal
     color: coral
-    focus: Identity, baseline, 2–3 pilot use cases
-    outs:
+    detail: Identity, baseline, 2–3 pilot use cases
+    outputs:
       - Event taxonomy MVP
       - Measurement baseline
       - Pilot: reactivation
-  - k: 3–9 MONTHS
-    name: Scale the decisions
+  - horizon: 3–9 MONTHS
+    label: Scale the decisions
     color: blue
-    focus: Reusable models and activation paths
-    outs:
+    detail: Reusable models and activation paths
+    outputs:
       - Next-best-action service
       - CRM + in-product hooks
       - Always-on test engine
-  - k: 9–18 MONTHS
-    name: Optimize the system
+  - horizon: 9–18 MONTHS
+    label: Optimize the system
     color: lime
-    focus: Cross-surface optimization at scale
-    outs:
+    detail: Cross-surface optimization at scale
+    outputs:
       - Budget via incrementality
       - Capacity-aware offers
       - Guarded automation
@@ -162,50 +221,39 @@ closing: Each phase ends with a stop / scale gate owned by a commercial lead.
 
 ---
 
-::: construct stageFlow
+::: layout steps-h
 title: Build a decision fabric—not one-off models
 subtitle: Reusable foundations let new use cases launch in weeks.
-footerLabel: "PRODUCT  ·  DATA ROADMAP"
-stages:
-  - h: Signals
-    d: Product · CRM · support · billing · experiments
+items:
+  - label: Signals
+    detail: Product · CRM · support · billing · experiments
     color: cyan
-  - h: Entities
-    d: Identity · catalog · consent · features
+  - label: Entities
+    detail: Identity · catalog · consent · features
     color: blue
-  - h: Decisions
-    d: Propensity · recommend · optimize · guardrails
+  - label: Decisions
+    detail: Propensity · recommend · optimize · guardrails
     color: coral
-  - h: Learning
-    d: Activation · holdouts · monitoring
+  - label: Learning
+    detail: Activation · holdouts · monitoring
     color: lime
-controlsLabel: Non-negotiable controls
-controls:
-  - Consent enforcement
-  - Model monitoring
-  - Human override
-  - Incrementality ledger
-principleLabel: Principle
-principle: Services return an action, confidence, rationale and measurement plan—not just a score.
 :::
 
 ---
 
-::: construct kpiBands
+::: layout banded-list
 title: Measure incremental value, not vanity engagement
 subtitle: Every use case needs a test design before production.
-footerLabel: "PRODUCT  ·  DATA ROADMAP"
-bands:
-  - h: USER
-    v: Relevance · trust · retention
+items:
+  - label: USER
+    value: Relevance · trust · retention
     color: cyan
-  - h: PRODUCT
-    v: Activation · conversion · time-to-value
+  - label: PRODUCT
+    value: Activation · conversion · time-to-value
     color: blue
-  - h: COMMERCIAL
-    v: Incremental revenue · margin · LTV
+  - label: COMMERCIAL
+    value: Incremental revenue · margin · LTV
     color: coral
-stepsLabel: Test-and-learn cadence
 steps:
   - Define decision & population
   - Choose control / holdout
@@ -216,10 +264,141 @@ watchout: Avoid optimizing click-through when the real decision is retention or 
 
 ---
 
-::: construct swimlane
+::: layout cycle
+title: Always-on learning loop
+items:
+  - label: Observe
+    detail: Instrument decisions
+  - label: Hypothesize
+    detail: Design the holdout
+  - label: Act
+    detail: Ship the treatment
+  - label: Learn
+    detail: Promote or stop
+:::
+
+---
+
+::: layout pyramid
+title: Capability stack
+items:
+  - label: Automation
+    detail: Guarded actions
+  - label: Decisions
+    detail: Models + policies
+  - label: Features
+    detail: Shared entity store
+  - label: Signals
+    detail: Event + identity spine
+:::
+
+---
+
+::: layout timeline
+title: 90-day launch milestones
+items:
+  - label: Week 2
+    detail: Pilot charter signed
+  - label: Week 5
+    detail: Features + holdout live
+  - label: Week 8
+    detail: First readout
+  - label: Week 12
+    detail: Scale / stop gate
+:::
+
+---
+
+::: layout funnel
+title: From signal to scaled decision
+items:
+  - label: Raw events
+  - label: Trusted features
+  - label: Scored actions
+  - label: Measured lift
+:::
+
+---
+
+::: layout hierarchy
+title: Ownership for the 90-day squad
+items:
+  - label: Commercial owner
+    items:
+      - label: Product
+      - label: Growth / CRM
+      - label: Data science
+      - label: Measurement
+:::
+
+---
+
+::: layout matrix3x3
+title: Impact × effort for the next backlog
+items:
+  - { label: Taxonomy, row: 0, col: 0 }
+  - { label: Reactivation, row: 0, col: 2 }
+  - { label: NBA service, row: 1, col: 1 }
+  - { label: Auto-budget, row: 2, col: 2 }
+:::
+
+---
+
+::: layout issue-tree
+title: Why learning is slow today
+items:
+  - label: Slow learning
+    items:
+      - label: Fragmented identity
+      - label: No holdout design
+      - label: Local KPI optimization
+:::
+
+---
+
+::: layout waterfall-story
+title: From dashboard debt to decision system
+items:
+  - label: Today
+    detail: Conflicting metrics
+  - label: Fix identity
+  - label: Shared features
+  - label: Holdouts
+  - label: Target
+    detail: Incremental lift
+:::
+
+---
+
+::: layout chart-callout
+title: Channel mix still under-indexes in-product
+items:
+  - In-product is only 8% share
+  - NPS is highest in-app (55)
+  - Shift next pilots to product surfaces
+media:
+  plot: channels
+  type: bar
+  x: channel
+  y: share_pct
+:::
+
+---
+
+::: layout before-after
+title: Operating model shift
+items:
+  - label: Before
+    detail: Dashboard reviews without owners
+  - label: After
+    detail: Decision squads with stop/scale gates
+:::
+
+---
+
+::: layout swimlane
 title: Start with a 90-day launch team that can ship and learn
 subtitle: Keep accountability close to commercial owners.
-footerLabel: "PRODUCT  ·  DATA ROADMAP"
 roles:
   - Product
   - Growth / CRM
@@ -227,43 +406,42 @@ roles:
   - Data engineering
   - Finance / measure
 phases:
-  - h: Weeks 1–3
+  - label: Weeks 1–3
     color: cyan
     w: 250
-  - h: Weeks 4–7
+  - label: Weeks 4–7
     color: blue
     w: 250
-  - h: Weeks 8–12
+  - label: Weeks 8–12
     color: coral
     w: 330
 marks:
-  - [0, 0, Pilot charter]
-  - [1, 0, Activation design]
-  - [2, 1, Model + rules]
-  - [3, 1, Feature set]
-  - [4, 2, Readout + scale gate]
+  - { role: 0, phase: 0, label: Pilot charter }
+  - { role: 1, phase: 0, label: Activation design }
+  - { role: 2, phase: 1, label: Model + rules }
+  - { role: 3, phase: 1, label: Feature set }
+  - { role: 4, phase: 2, label: Readout + scale gate }
 criterionLabel: Launch criterion
 criterion: A commercial owner, a frontline action, a measurement design and a clear stop / scale rule.
 :::
 
 ---
 
-::: construct closing
+::: layout closing
 eyebrow: The decision
 title: |
   Invest in a decision system—
   not isolated dashboards.
 subtitle: Start with two connected use cases that move retention and learning speed.
-footerLabel: "PRODUCT  ·  DATA ROADMAP"
-recs:
-  - h: 1. Choose pilots
-    d: High-frequency decisions with clear owners.
+items:
+  - label: 1. Choose pilots
+    detail: High-frequency decisions with clear owners.
     color: cyan
-  - h: 2. Prove incrementality
-    d: Holdouts and margin-aware readouts.
+  - label: 2. Prove incrementality
+    detail: Holdouts and margin-aware readouts.
     color: blue
-  - h: 3. Scale the fabric
-    d: Reuse identity, features and activation.
+  - label: 3. Scale the fabric
+    detail: Reuse identity, features and activation.
     color: coral
 next: "Next step: convene the 90-day squad and pick the first two decisions."
 :::

@@ -20,9 +20,9 @@ The [demo](decks/demo.md) deck is the single source example: Q1 charts/tables/di
 | :---: | :---: | :---: |
 | ![Revenue trend slide](examples/quarterly-report.002.png) | ![Regional breakdown slide](examples/quarterly-report.003.png) | ![Pipeline architecture slide](examples/quarterly-report.004.png) |
 
-## Visual constructs (shared markdown)
+## Visual layouts (shared markdown)
 
-Roadmap / idea slides use the **same Markdown file** as data slides, with fenced construct blocks:
+Diagram / argument slides use fenced **layout** blocks (legacy `::: construct` still works):
 
 ````markdown
 ---
@@ -32,19 +32,33 @@ title: Product data roadmap
 footerLabel: "PRODUCT  ·  DATA ROADMAP"
 ---
 
-::: construct roadmapPhases
+::: layout roadmap
 title: Sequence the roadmap
-phases:
-  - k: 0–90 DAYS
-    name: Prove the signal
+items:
+  - horizon: 0–90 DAYS
+    label: Prove the signal
     color: coral
-    outs: [MVP, Baseline]
+    outputs: [MVP, Baseline]
+:::
+
+::: layout matrix2x2
+title: Portfolio view
+axes: { x: Capability, y: Learning value }
+items:
+  - { label: Reactivation, quadrant: tr }
+:::
+
+::: layout split
+title: Text + chart
+items: [Insight one, Insight two]
+media: { plot: regions, type: bar, x: region, y: revenue_m }
 :::
 ````
 
-- `engine: auto` (default) → **pptxgenjs** if any `::: construct` blocks exist, else **Marp**
-- `{{plot}}` / `{{table}}` / `{{mermaid}}` expand on both engines (PPTX embeds images/tables)
-- Color names in YAML (`coral`, `blue`, `cyan`, `lime`, `series.0`, …) resolve from scientific tokens
+- `engine: auto` → **pptxgenjs** if any `::: layout` / `::: construct` blocks exist, else **Marp**
+- Shared fields: `title`, `subtitle`, `items[]` (`label` / `detail` / `value`), `slots` / `media`, `axes`
+- Layouts are plugins in `lib/constructs/layouts/` with a shared **fit engine** (auto spacing / font)
+- `{{plot:name}}` / `{{table:name}}` / `{{mermaid:name}}` from `data/*.csv` + Mermaid; equations via `$$…$$`
 
 ```bash
 npm run build:constructs
@@ -53,7 +67,7 @@ npm run build:constructs
 
 Output: [`examples/demo.pptx`](examples/demo.pptx) · source [`decks/demo.md`](decks/demo.md)
 
-Helpers: `lib/constructs/` · IR parser: `lib/ir/`
+Helpers: `lib/constructs/` (fit, registry, catalog) · IR: `lib/ir/`
 
 ## Requirements
 

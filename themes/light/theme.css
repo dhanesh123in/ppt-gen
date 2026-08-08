@@ -1,0 +1,95 @@
+/* @theme light */
+/* generated from tokens.yaml; edit tokens, recompile */
+section {
+  background: #F7F8FA;
+  color: #131722;
+  font-family: Helvetica Neue, Arial, sans-serif;
+  font-size: 18px;
+  width: 1280px;
+  height: 720px;
+  padding: 48px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+  place-content: start start;
+}
+section:has(> h1) {
+  justify-content: center;
+  place-content: center center;
+  text-align: center;
+}
+section::before {
+  content: "";
+  position: absolute;
+  top: 28px;
+  right: 36px;
+  width: 44px;
+  height: 44px;
+  background: url("data:image/svg+xml,%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22UTF-8%22%3F%3E%0A%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2048%2048%22%20role%3D%22img%22%20aria-label%3D%22ppt-gen%20logo%22%3E%0A%20%20%3Crect%20x%3D%223.2%22%20y%3D%2212.7%22%20width%3D%2228%22%20height%3D%2234%22%20rx%3D%224%22%20fill%3D%22%233D8DFF%22%20stroke%3D%22%23C8CED6%22%20stroke-width%3D%221.5%22%2F%3E%0A%20%20%3Cline%20x1%3D%228.2%22%20y1%3D%2220.7%22%20x2%3D%2223.2%22%20y2%3D%2220.7%22%20stroke%3D%22%23F7F8FA%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20opacity%3D%220.85%22%2F%3E%0A%20%20%3Cline%20x1%3D%228.2%22%20y1%3D%2226.7%22%20x2%3D%2220.2%22%20y2%3D%2226.7%22%20stroke%3D%22%23F7F8FA%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20opacity%3D%220.6%22%2F%3E%0A%20%20%3Crect%20x%3D%2211.2%22%20y%3D%228.1%22%20width%3D%2228%22%20height%3D%2234%22%20rx%3D%224%22%20fill%3D%22%23C45C26%22%20stroke%3D%22%23C8CED6%22%20stroke-width%3D%221.5%22%2F%3E%0A%20%20%3Cline%20x1%3D%2216.2%22%20y1%3D%2216.1%22%20x2%3D%2231.2%22%20y2%3D%2216.1%22%20stroke%3D%22%23F7F8FA%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20opacity%3D%220.85%22%2F%3E%0A%20%20%3Cline%20x1%3D%2216.2%22%20y1%3D%2222.1%22%20x2%3D%2228.2%22%20y2%3D%2222.1%22%20stroke%3D%22%23F7F8FA%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20opacity%3D%220.6%22%2F%3E%0A%20%20%3Crect%20x%3D%2219.2%22%20y%3D%223.2%22%20width%3D%2228%22%20height%3D%2234%22%20rx%3D%224%22%20fill%3D%22%23C45C26%22%20stroke%3D%22%23C8CED6%22%20stroke-width%3D%221.5%22%2F%3E%0A%20%20%3Cline%20x1%3D%2224.2%22%20y1%3D%2211.2%22%20x2%3D%2239.2%22%20y2%3D%2211.2%22%20stroke%3D%22%23F7F8FA%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20opacity%3D%220.85%22%2F%3E%0A%20%20%3Cline%20x1%3D%2224.2%22%20y1%3D%2217.2%22%20x2%3D%2236.2%22%20y2%3D%2217.2%22%20stroke%3D%22%23F7F8FA%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20opacity%3D%220.6%22%2F%3E%0A%3C%2Fsvg%3E") no-repeat center / contain;
+  pointer-events: none;
+}
+h1 {
+  color: #C45C26;
+  font-size: 48px;
+  margin: 0;
+}
+section:not(:has(> h1)) > h2:first-of-type {
+  color: #131722;
+  font-size: 30px;
+  margin: 0 0 0.5em 0;
+  margin-block: 0 0.5em;
+  padding-bottom: 0.35em;
+  border-bottom: 2px solid #C8CED6;
+  width: 100%;
+  flex-shrink: 0;
+}
+h2 {
+  color: #131722;
+  font-size: 30px;
+  margin-block: 0 0.5em;
+}
+strong {
+  color: #C45C26;
+}
+code {
+  font-family: JetBrains Mono, monospace;
+  background: #C8CED6;
+}
+table {
+  font-size: 18px;
+  border-collapse: collapse;
+  width: 100%;
+}
+table th {
+  background: #3D8DFF;
+  color: #131722;
+  padding: 0.4em 0.6em;
+}
+table td {
+  border: 1px solid #C8CED6;
+  padding: 0.35em 0.6em;
+}
+table tr:nth-child(even) {
+  background: #C8CED6;
+}
+.figure-caption, .table-caption {
+  font-size: 14px;
+  color: #5C6470;
+  margin-top: 0.5em;
+}
+section:not(:has(> h1)) img {
+  display: block;
+  max-width: 100%;
+  margin: 0.35em 0 0.45em 0;
+}
+footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  color: #5C6470;
+  font-size: 0.55em;
+  padding: inherit;
+  width: calc(100% - 5em);
+}

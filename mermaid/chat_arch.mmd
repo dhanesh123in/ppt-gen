@@ -1,0 +1,29 @@
+flowchart TB
+  subgraph clients [Clients]
+    iOS[iOS]
+    And[Android]
+    Web[Web / desktop]
+  end
+  subgraph edge [Edge]
+    CDN[Media CDN]
+    GW[API + WS gateway]
+  end
+  subgraph core [Core services]
+    Msg[Message service]
+    Pres[Presence]
+    Media[Media pipeline]
+    Sync[Sync / receipts]
+    Push[Push fanout]
+  end
+  subgraph data [Data]
+    Cass[(Message store)]
+    Redis[(Presence cache)]
+    Obj[(Object store)]
+  end
+  iOS & And & Web --> GW
+  GW --> Msg & Pres & Sync & Push
+  Media --> CDN
+  Msg --> Cass
+  Pres --> Redis
+  Media --> Obj
+  Sync --> Cass

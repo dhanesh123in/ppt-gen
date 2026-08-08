@@ -19,7 +19,7 @@ function usage() {
   node bin/ppt-gen.mjs all <deck|path.md> [--format pdf|pptx|html] [--theme NAME] [--engine marp|constructs|auto]
   node bin/ppt-gen.mjs constructs <path.md|.mjs> [--theme NAME] [--out NAME]
 
-Shared markdown: use ::: construct <name> YAML blocks. engine: auto|marp|constructs in frontmatter.`);
+Shared markdown: use ::: layout <name> YAML blocks (::: construct still accepted). engine: auto|marp|constructs in frontmatter.`);
 }
 
 function parseArgs(argv) {

@@ -1,0 +1,23 @@
+flowchart LR
+  subgraph ingress [Ingress]
+    Client[Client apps]
+    Edge[Edge / TLS]
+  end
+  subgraph control [Control plane]
+    Gate[API gateway]
+    Auth[Identity + keys]
+    Router[MoE router]
+  end
+  subgraph experts [Experts]
+    E1[Expert A]
+    E2[Expert B]
+    E3[Expert C]
+  end
+  subgraph train [Training]
+    Bal[Load balance loss]
+    Cap[Capacity constraints]
+  end
+  Client --> Edge --> Gate --> Auth --> Router
+  Router --> E1 & E2 & E3
+  Router --> Bal
+  Bal --> Cap
