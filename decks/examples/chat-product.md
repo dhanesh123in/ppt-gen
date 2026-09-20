@@ -53,40 +53,34 @@ northStar: Become the default private inbox for friends and family
 
 ---
 
-::: layout big-number
-title: Experience targets (v1)
-items:
-  - label: Send→ack
-    value: <150ms
-    detail: p50 same region
-  - label: Sync catch-up
-    value: <2s
-    detail: 24h offline
-  - label: Group size
-    value: 1k
-    detail: Members v1
-  - label: Media
-    value: 2 GB
-    detail: Max upload
-:::
-
----
-
-::: layout list-cards
-title: Core journeys
-items:
-  - label: 1:1 chat
-    detail: Text, react, reply, delete-for-me/everyone
-    color: cyan
-  - label: Groups
-    detail: Admin roles, mentions, invite links
-    color: blue
-  - label: Media
-    detail: Images, video, voice notes, docs
-    color: coral
-  - label: Calls
-    detail: Voice/video 1:1 → group later
-    color: lime
+::: layout compose
+title: Targets and journeys (v1)
+arrangement: cols-2
+slots:
+  - layout: big-number
+    title: Experience targets
+    items:
+      - label: Send→ack
+        value: <150ms
+        detail: p50 same region
+      - label: Sync catch-up
+        value: <2s
+        detail: 24h offline
+      - label: Group size
+        value: 1k
+        detail: Members v1
+  - layout: list-cards
+    title: Core journeys
+    items:
+      - label: 1:1 chat
+        detail: Text, react, reply, delete
+        color: cyan
+      - label: Groups
+        detail: Admin roles, mentions, invites
+        color: blue
+      - label: Media
+        detail: Images, video, voice, docs
+        color: coral
 :::
 
 ---
@@ -106,52 +100,26 @@ items:
 
 ---
 
-::: layout matrix2x2
-title: v1 scope cut
-axes:
-  x: User value
-  y: Build cost
-quadrants:
-  tl: Defer
-  tr: Build now
-  bl: Skip
-  br: Partner / buy
-items:
-  - label: 1:1 + receipts
-    quadrant: tr
-  - label: Groups 1k
-    quadrant: tr
-  - label: Status/stories
-    quadrant: tl
-  - label: Payments
-    quadrant: bl
-  - label: Push infra
-    quadrant: br
-:::
-
----
-
-## Architecture (v1)
-
-{{mermaid:chat_arch}}
-
----
-
-::: layout steps-h
-title: Message path
-items:
-  - label: Client
-    detail: Encrypt + queue
-    color: cyan
-  - label: Gateway
-    detail: Auth + WS
-    color: blue
-  - label: Message svc
-    detail: Persist + fanout
-    color: coral
-  - label: Devices
-    detail: Sync + receipts
-    color: lime
+::: layout compose
+title: Scope and message path
+arrangement: rows-2
+slots:
+  - layout: matrix2x2
+    title: v1 scope cut
+    axes: { x: User value, y: Build cost }
+    quadrants: { tl: Defer, tr: Build now, bl: Skip, br: Partner }
+    items:
+      - { label: 1:1 + receipts, x: high, y: high }
+      - { label: Groups 1k, x: high, y: high }
+      - { label: Status/stories, x: low, y: high }
+      - { label: Payments, x: low, y: low }
+  - layout: steps-h
+    title: Message path
+    items:
+      - { label: Client, detail: Encrypt + queue }
+      - { label: Gateway, detail: Auth + WS }
+      - { label: Message svc, detail: Persist + fanout }
+      - { label: Devices, detail: Sync + receipts }
 :::
 
 ---

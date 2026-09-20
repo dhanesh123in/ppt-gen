@@ -128,22 +128,22 @@ items:
 
 ---
 
-::: layout big-number
-title: Pilot outcomes in the first 90 days
-subtitle: Directional readouts from the reactivation squad
-items:
-  - label: Lift
-    value: +9%
-    detail: Incremental reactivation
-  - label: Speed
-    value: 11d
-    detail: Idea → live holdout
-  - label: Coverage
-    value: 64%
-    detail: Identified journeys
-  - label: Waste
-    value: −18%
-    detail: Low-margin offers
+::: layout compose
+title: Pilot readouts and next moves
+arrangement: header-body
+slots:
+  - layout: big-number
+    title: First 90 days
+    items:
+      - { label: Lift, value: +9%, detail: Incremental reactivation }
+      - { label: Speed, value: 11d, detail: Idea → live holdout }
+      - { label: Waste, value: −18%, detail: Low-margin offers }
+  - layout: chevron
+    title: Scale path
+    items:
+      - { label: Prove, detail: Holdouts in 2 journeys }
+      - { label: Productize, detail: Playbooks + owners }
+      - { label: Scale, detail: Coverage → 80% }
 :::
 
 ---

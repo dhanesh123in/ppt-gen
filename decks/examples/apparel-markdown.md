@@ -73,46 +73,25 @@ Full-price mix fell from **61% → 47%** in six months—before peak holiday.
 
 ---
 
-::: layout matrix2x2
-title: Where to intervene first
-subtitle: Prioritize high residual value with recoverable demand
-axes:
-  x: Sell-through risk
-  y: Unit contribution
-quadrants:
-  tl: Protect
-  tr: Price now
-  bl: Exit
-  br: Test & learn
-items:
-  - label: Core basics
-    quadrant: tl
-  - label: Seasonal fashion
-    quadrant: tr
-  - label: Aged novelty
-    quadrant: bl
-  - label: Test capsules
-    quadrant: br
-:::
-
----
-
-::: layout big-number
-title: Illustrative annual impact (US apparel mid-market)
-subtitle: Directional, based on $800M revenue and current mix
-items:
-  - label: Margin recovery
-    value: +$18–28M
-    detail: Gross profit
-  - label: Full-price mix
-    value: +4–6 pts
-    detail: Within 12 months
-  - label: Aged inventory
-    value: −15–25%
-    detail: Weeks of supply
-  - label: Payback
-    value: <2 qtrs
-    detail: After pilot
+::: layout compose
+title: Where to act — and what it buys
+arrangement: cols-2
+slots:
+  - layout: matrix2x2
+    title: Intervene first
+    axes: { x: Sell-through risk, y: Unit contribution }
+    quadrants: { tl: Protect, tr: Price now, bl: Exit, br: Test }
+    items:
+      - { label: Core basics, x: low, y: high }
+      - { label: Seasonal fashion, x: high, y: high }
+      - { label: Aged novelty, x: high, y: low }
+      - { label: Test capsules, x: low, y: low }
+  - layout: big-number
+    title: Annual impact (illustrative)
+    items:
+      - { label: Margin recovery, value: +$18–28M, detail: Gross profit }
+      - { label: Full-price mix, value: +4–6 pts, detail: Within 12 months }
+      - { label: Aged inventory, value: −15–25%, detail: Weeks of supply }
 :::
 
 ---

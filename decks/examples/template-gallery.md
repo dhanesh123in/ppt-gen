@@ -187,9 +187,30 @@ slots:
 
 ---
 
+::: layout compose
+title: Compose — main + side stack
+arrangement: main-side
+slots:
+  - layout: venn-2
+    title: Overlap story
+    items:
+      - { label: Product, detail: Reliability }
+      - { label: GTM, detail: Narrative }
+      - { label: Retention, detail: Habit }
+  - layout: big-number
+    title: Signal
+    items:
+      - { label: NPS, value: "+12", detail: Trailing 90d }
+  - layout: callout
+    title: Decision
+    body: Fund the habit-loop bet; pause vanity dashboards.
+:::
+
+---
+
 ::: layout closing
 eyebrow: Next
 title: Author in YAML. Render with ppt-gen.
 subtitle: Pick a pack layout, fill items, regenerate — same visual language every time.
-next: "See README · Template packs (consulting / scientific / core)"
+next: "See README · Template packs (consulting / scientific / core) · compose for multi-panel slides"
 :::
