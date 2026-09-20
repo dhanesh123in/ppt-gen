@@ -4,17 +4,18 @@
 
 # ppt-gen
 
-Unified design-system layer for [Marp](https://marp.app/) decks and native PowerPoint output. One `tokens.yaml` drives Marpit CSS, Chart.js plots, Mermaid diagrams, tables, and pptxgenjs layouts.
+**Standardized visual templates for complex ideas** — consulting and scientific SmartArt-style layouts as fillable YAML, rendered to native PowerPoint.
 
-The CLI is **Node ESM** (`bin/ppt-gen.mjs`). Plots come from CSV via Chart.js; equations render through KaTeX + headless Chrome; diagrams use Mermaid CLI.
+One `tokens.yaml` drives colors, type, charts, Mermaid, and pptxgenjs layouts. Author `::: layout` blocks; regenerate decks in minutes with a consistent visual language PowerPoint SmartArt rarely achieves.
 
-The logo is generated from theme colors when you compile a theme (`lib/brand.mjs`) and appears on every slide.
+The CLI is **Node ESM** (`bin/ppt-gen.mjs`). Plots come from CSV via Chart.js; equations via KaTeX + Chrome; diagrams via Mermaid CLI. Marp remains an optional PDF path — **constructs PPTX is the product**.
 
 ## Examples
 
 | Deck | Source | Output |
 |------|--------|--------|
 | Product analytics roadmap (canonical) | [`decks/demo.md`](decks/demo.md) | [**demo.pptx**](examples/demo.pptx) |
+| Template gallery (SmartArt packs) | [`decks/examples/template-gallery.md`](decks/examples/template-gallery.md) | [template-gallery.pptx](examples/template-gallery.pptx) |
 | WhatsApp-class chat PRD | [`decks/examples/chat-product.md`](decks/examples/chat-product.md) | [chat-product.pptx](examples/chat-product.pptx) |
 | Mixture-of-Experts LLMs | [`decks/examples/moe-llms.md`](decks/examples/moe-llms.md) | [moe-llms.pptx](examples/moe-llms.pptx) |
 | Apparel retail markdown | [`decks/examples/apparel-markdown.md`](decks/examples/apparel-markdown.md) | [apparel-markdown.pptx](examples/apparel-markdown.pptx) |
@@ -136,6 +137,18 @@ media: { plot: regions, type: bar, x: region, y: revenue_m }
 
 Shared item fields: `label` / `detail` / `value` (plus layout-specific keys such as `horizon`, `outputs`, `quadrant`).
 
+#### Template packs
+
+Layouts are grouped in [`lib/constructs/packs.mjs`](lib/constructs/packs.mjs):
+
+| Pack | Focus |
+|------|--------|
+| **core** | Cover, section, split, lists, media |
+| **consulting** | Matrix, issue tree, roadmap, swimlane, chevron, stair, venn-2, RACI, waterfall… |
+| **scientific** | Equation, figure/chart focus, hierarchy, results KPIs, method steps |
+
+New SmartArt-style layouts: `chevron`, `stair`, `venn-2`, `raci` (see gallery deck).
+
 #### Built-in layouts
 
 | Group | Names |
@@ -176,18 +189,26 @@ branding:
   logo_width_px: 120           # optional; defaults to height (square)
   logo_top_px: 28
   logo_right_px: 36
-  footer: "Acme · Confidential"
+  footer: "Acme · Q3 Strategy"
+  classification: Confidential # center footer badge
+  classification_tone: warn    # warn | muted | accent
 ```
 
-Or override per deck:
+Or override per deck (constructs PPTX):
 
 ```yaml
 ---
 theme: scientific
 logo: assets/brand/acme-mark.png
+logoHeight: 48
+logoWidth: 120
 # logo: false                  # hide the mark
+footerLabel: "ACME  ·  Q3 STRATEGY"
+classification: Internal Only
 ---
 ```
+
+Footer chrome is three parts: **left** deck label · **center** classification badge (when set) · **right** page number.
 
 Omit `logo` to keep the generated ppt-gen mark. After changing theme logos, re-run `npm run theme:compile` for Marp CSS; constructs PPTX picks the file up at build time.
 

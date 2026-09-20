@@ -61,6 +61,8 @@ space:
 
 branding:
   footer: "Slides CC BY-SA 4.0 · Code MIT"
+  # classification: Confidential   # center footer badge (Confidential / Internal Only / …)
+  # classification_tone: warn      # warn | muted | accent
   # Optional custom mark (SVG/PNG/JPEG). Paths resolve from theme dir,
   # assets/brand/, or repo root. Omit to use the generated ppt-gen mark.
   # logo: my-logo.svg

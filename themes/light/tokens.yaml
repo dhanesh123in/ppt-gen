@@ -61,6 +61,8 @@ space:
 
 branding:
   footer: "Slides CC BY-SA 4.0 · Code MIT"
+  # classification: Internal Only
+  # classification_tone: muted
   # logo: my-logo.svg   # or assets/brand/acme.png; false to hide
   logo_height_px: 44
   logo_width_px: 44
