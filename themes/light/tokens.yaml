@@ -1,5 +1,5 @@
-name: scientific
-variant: dark
+name: light
+variant: light
 
 canvas:
   aspect: "16:9"
@@ -7,37 +7,37 @@ canvas:
   height_px: 720
 
 colors:
-  background: "#1a1a2e"
-  foreground: "#eaeaea"
-  accent: "#e94560"
-  muted: "#6c6c8a"
-  border: "#3a3a5c"
-  panel: "#2b2b4a"
-  panelSoft: "#23233c"
-  panelAlt: "#1f1f36"
+  background: "#F7F8FA"
+  foreground: "#131722"
+  accent: "#C45C26"
+  muted: "#5C6470"
+  border: "#C8CED6"
+  panel: "#E9EDF1"
+  panelSoft: "#F3F5F7"
+  panelAlt: "#FFFFFF"
   onAccent: "#FFFFFF"
   series:
-    - "#4e79a7"
-    - "#f28e2b"
-    - "#e15759"
-    - "#76b7b2"
+    - "#3D8DFF"
+    - "#C45C26"
+    - "#E15759"
+    - "#6DCBF4"
     - "#59a14f"
 
 typography:
   sans: "Helvetica Neue, Arial, sans-serif"
   mono: "JetBrains Mono, monospace"
   slide:
-    title_px: 44
-    heading_px: 32
-    body_px: 22
-    caption_px: 16
+    title_px: 48
+    heading_px: 30
+    body_px: 18
+    caption_px: 14
   plot:
     base_pt: 18
     title_pt: 22
     tick_pt: 16
     legend_pt: 16
   mermaid:
-    font_px: 20
+    font_px: 18
 
 layout:
   figure_width_frac: 0.90
@@ -51,8 +51,8 @@ space:
   lg: 24
   xl: 32
   contentPad: 42
-  cardGap: 20
-  minCardH: 120
+  cardGap: 24
+  minCardH: 140
   titleBand: 100
   footerBand: 48
   minFont: 12
@@ -61,12 +61,9 @@ space:
 
 branding:
   footer: "Slides CC BY-SA 4.0 · Code MIT"
-  # classification: Confidential   # center footer badge (Confidential / Internal Only / …)
-  # classification_tone: warn      # warn | muted | accent
-  # Optional custom mark (SVG/PNG/JPEG). Paths resolve from theme dir,
-  # assets/brand/, or repo root. Omit to use the generated ppt-gen mark.
-  # logo: my-logo.svg
-  # logo: false          # hide logo
+  # classification: Internal Only
+  # classification_tone: muted
+  # logo: my-logo.svg   # or assets/brand/acme.png; false to hide
   logo_height_px: 44
   logo_width_px: 44
   logo_top_px: 28
@@ -76,7 +73,7 @@ plot:
   dpi: 160
   linewidth: 2.0
   markersize: 6
-  grid_alpha: 0.25
+  grid_alpha: 0.2
   margins:
     left: 0.22
     right: 0.94
@@ -90,7 +87,7 @@ table:
 
 mermaid:
   theme: base
-  dark_mode: true
+  dark_mode: false
 
 slots:
   full:
