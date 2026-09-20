@@ -146,6 +146,47 @@ items:
 
 ---
 
+# arrangement: cols-2 | cols-3 | rows-2 | rows-3 | grid-2x2 | main-side | side-main | header-body
+::: layout compose
+title: Compose — two-up (columns)
+arrangement: cols-2
+slots:
+  - layout: big-number
+    title: Outcomes
+    items:
+      - { label: Latency, value: "−38%", detail: p50 }
+      - { label: Quality, value: "+0.12", detail: Win rate }
+  - layout: chevron
+    title: Path
+    items:
+      - { label: Frame }
+      - { label: Prove }
+      - { label: Scale }
+:::
+
+---
+
+::: layout compose
+title: Compose — stacked (rows)
+arrangement: rows-2
+slots:
+  - layout: matrix2x2
+    title: Portfolio
+    axes: { x: Ease, y: Impact }
+    items:
+      - { label: Onboarding, x: high, y: high }
+      - { label: Rewrite, x: low, y: high }
+  - layout: raci
+    title: Owners
+    roles: [PM, Eng]
+    activities: [Spec, Build]
+    marks:
+      - { activity: Spec, role: PM, value: A }
+      - { activity: Build, role: Eng, value: R }
+:::
+
+---
+
 ::: layout closing
 eyebrow: Next
 title: Author in YAML. Render with ppt-gen.

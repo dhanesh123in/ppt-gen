@@ -174,6 +174,32 @@ marks:
 
 Also: `stair` (maturity steps). RACI marks prefer **names**; numeric indices still work as legacy.
 
+#### Compose (multiple layouts per slide)
+
+One slide chrome; children render in regions (no nested footers).
+
+```yaml
+arrangement: cols-2   # cols-2 | cols-3 | rows-2 | rows-3 | grid-2x2
+                      # main-side | side-main | header-body
+```
+
+````markdown
+::: layout compose
+title: Snapshot
+arrangement: cols-2
+slots:
+  - layout: big-number
+    title: KPIs
+    items:
+      - { label: NPS, value: "+12" }
+  - layout: chevron
+    title: Next steps
+    items:
+      - { label: Pilot }
+      - { label: Scale }
+:::
+````
+
 #### Template packs
 
 Layouts are grouped in [`lib/constructs/packs.mjs`](lib/constructs/packs.mjs):
@@ -188,7 +214,7 @@ Layouts are grouped in [`lib/constructs/packs.mjs`](lib/constructs/packs.mjs):
 
 | Group | Names |
 |-------|--------|
-| Chrome | `cover`, `section`, `agenda`, `closing`, `title-body` |
+| Chrome | `cover`, `section`, `agenda`, `closing`, `title-body`, `compose` |
 | KPIs / lists | `big-number`, `banded-list`, `list-cards`, `callout`, `quote`, `comparison` |
 | Process | `steps-h`, `steps-v`, `timeline`, `funnel`, `cycle`, `swimlane`, `roadmap`, `chevron`, `stair` |
 | Structure | `hierarchy`, `radial`, `pyramid`, `inverted-pyramid`, `issue-tree`, `venn-2` |
