@@ -89,9 +89,9 @@ slots:
   - layout: big-number
     title: Annual impact (illustrative)
     items:
-      - { label: Margin recovery, value: +$18–28M, detail: Gross profit }
-      - { label: Full-price mix, value: +4–6 pts, detail: Within 12 months }
-      - { label: Aged inventory, value: −15–25%, detail: Weeks of supply }
+      - { label: Margin recovery, value: "+$23M", detail: Mid-case GP uplift }
+      - { label: Full-price mix, value: "+5 pts", detail: Within 12 months }
+      - { label: Aged inventory, value: "−20%", detail: Weeks of supply }
 :::
 
 ---

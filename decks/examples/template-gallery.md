@@ -15,14 +15,14 @@ eyebrow: Template packs
 title: |
   Smart visuals for
   consulting & science
-subtitle: Standardized mjs layouts — fill YAML, get presentation-grade shapes PowerPoint SmartArt rarely nails.
+subtitle: Fill YAML, get presentation-grade shapes that PowerPoint SmartArt rarely nails.
 chip: GALLERY
 panel: stats
 panelCaption: LAYOUT VOCABULARY
 stats:
-  - { label: Consulting, value: "chevron · stair · venn · raci · matrix" }
-  - { label: Scientific, value: "equation · hierarchy · big-number" }
-  - { label: Chrome, value: "logo · footer · classification tag" }
+  - { label: Consulting, value: "chevron · stair · venn · raci" }
+  - { label: Scientific, value: "equation · hierarchy · KPI" }
+  - { label: Chrome, value: "logo · footer · classification" }
 :::
 
 ---
@@ -158,17 +158,18 @@ slots:
       - { label: Quality, value: "+0.12", detail: Win rate }
   - layout: chevron
     title: Path
+    align: start
     items:
-      - { label: Frame }
-      - { label: Prove }
-      - { label: Scale }
+      - { label: Frame, detail: Problem + options }
+      - { label: Prove, detail: Pilot evidence }
+      - { label: Scale, detail: Rollout plan }
 :::
 
 ---
 
 ::: layout compose
-title: Compose — stacked (rows)
-arrangement: rows-2
+title: Compose — side by side
+arrangement: cols-2
 slots:
   - layout: matrix2x2
     title: Portfolio
@@ -183,6 +184,26 @@ slots:
     marks:
       - { activity: Spec, role: PM, value: A }
       - { activity: Build, role: Eng, value: R }
+:::
+
+---
+
+::: layout compose
+title: Compose — stacked (rows)
+arrangement: rows-2
+slots:
+  - layout: banded-list
+    title: Signals
+    items:
+      - { label: Adoption, value: "+18% WoW in pilot cohort" }
+      - { label: Quality, value: "Win rate +0.12 vs control" }
+      - { label: Cost, value: "p50 inference −11%" }
+  - layout: steps-h
+    title: Next three moves
+    items:
+      - { label: Lock metric, detail: One north-star }
+      - { label: Expand cohort, detail: +2 segments }
+      - { label: Decision gate, detail: Go / hold }
 :::
 
 ---

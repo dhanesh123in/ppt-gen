@@ -13,7 +13,7 @@ eyebrow: Product brief
 title: |
   A messaging product
   built for trust at scale
-subtitle: Requirements and architecture for a WhatsApp-class chat experience—1:1, groups, media, calls.
+subtitle: Requirements and architecture for a WhatsApp-class chat experience.
 chip: PRD
 meta: For product, engineering and design
 panel: stats
@@ -102,7 +102,7 @@ items:
 
 ::: layout compose
 title: Scope and message path
-arrangement: rows-2
+arrangement: cols-2
 slots:
   - layout: matrix2x2
     title: v1 scope cut
