@@ -65,6 +65,10 @@ theme: scientific          # or light (see themes/)
 engine: auto               # auto | constructs | marp
 title: My deck
 footerLabel: "PRODUCT  ·  DATA"
+classification: Confidential   # optional center badge
+logo: assets/brand/acme-mark.png  # optional; logo: false to hide
+# logoHeight: 48
+# logoWidth: 120
 paginate: true
 size: 16:9
 # Optional overrides (merged onto the theme):
@@ -125,7 +129,7 @@ title: v1 scope cut
 axes: { x: User value, y: Build cost }
 quadrants: { tl: Defer, tr: Build now, bl: Skip, br: Partner }
 items:
-  - { label: 1:1 chat, quadrant: tr }
+  - { label: 1:1 chat, x: high, y: high }   # or quadrant: tr
 :::
 
 ::: layout split
@@ -135,7 +139,40 @@ media: { plot: regions, type: bar, x: region, y: revenue_m }
 :::
 ````
 
-Shared item fields: `label` / `detail` / `value` (plus layout-specific keys such as `horizon`, `outputs`, `quadrant`).
+Shared item fields: `label` / `detail` / `value` (plus layout-specific keys such as `horizon`, `outputs`, `x`/`y`).
+
+#### SmartArt-style layouts
+
+Fill `items` (and layout-specific keys); captions and flex spacing are handled by the layout engine. Full cookbook: [`decks/examples/template-gallery.md`](decks/examples/template-gallery.md).
+
+````markdown
+::: layout chevron
+title: Process
+items:
+  - { label: Discover, detail: Frame the problem }
+  - { label: Diagnose, detail: Drivers & evidence }
+  - { label: Deliver, detail: Pilot → scale }
+:::
+
+::: layout venn-2
+title: Where product and GTM overlap
+items:
+  - { label: Product, detail: Surface + reliability }
+  - { label: GTM, detail: Narrative + channels }
+  - { label: Retention, detail: Habit loops }
+:::
+
+::: layout raci
+title: Launch ownership
+roles: [Product, Eng, Design, GTM]
+activities: [PRD freeze, Beta cohort, Pricing page]
+marks:
+  - { activity: PRD freeze, role: Product, value: A }
+  - { activity: Beta cohort, role: GTM, value: A }
+:::
+````
+
+Also: `stair` (maturity steps). RACI marks prefer **names**; numeric indices still work as legacy.
 
 #### Template packs
 
@@ -147,20 +184,18 @@ Layouts are grouped in [`lib/constructs/packs.mjs`](lib/constructs/packs.mjs):
 | **consulting** | Matrix, issue tree, roadmap, swimlane, chevron, stair, venn-2, RACI, waterfall… |
 | **scientific** | Equation, figure/chart focus, hierarchy, results KPIs, method steps |
 
-New SmartArt-style layouts: `chevron`, `stair`, `venn-2`, `raci` (see gallery deck).
-
 #### Built-in layouts
 
 | Group | Names |
 |-------|--------|
 | Chrome | `cover`, `section`, `agenda`, `closing`, `title-body` |
 | KPIs / lists | `big-number`, `banded-list`, `list-cards`, `callout`, `quote`, `comparison` |
-| Process | `steps-h`, `steps-v`, `timeline`, `funnel`, `cycle`, `swimlane`, `roadmap` |
-| Structure | `hierarchy`, `radial`, `pyramid`, `inverted-pyramid`, `issue-tree` |
-| Strategy | `matrix2x2` (aliases: `bcg`, `quadrant`), `matrix3x3`, `waterfall-story`, `before-after` |
+| Process | `steps-h`, `steps-v`, `timeline`, `funnel`, `cycle`, `swimlane`, `roadmap`, `chevron`, `stair` |
+| Structure | `hierarchy`, `radial`, `pyramid`, `inverted-pyramid`, `issue-tree`, `venn-2` |
+| Strategy | `matrix2x2` (aliases: `bcg`, `quadrant`), `matrix3x3`, `waterfall-story`, `before-after`, `raci` |
 | Media | `split`, `split-reverse`, `figure-focus`, `table-focus`, `mermaid-focus`, `chart-callout`, `equation`, `code` |
 
-Layouts live in [`lib/constructs/layouts/catalog.mjs`](lib/constructs/layouts/catalog.mjs) and register through the fit engine ([`lib/constructs/fit.mjs`](lib/constructs/fit.mjs)).
+Layouts live in [`lib/constructs/layouts/`](lib/constructs/layouts/) (`catalog.mjs`, `smartart.mjs`). Placement uses the fit + flex engines ([`fit.mjs`](lib/constructs/fit.mjs), [`layout-flex.mjs`](lib/constructs/layout-flex.mjs)).
 
 Images (plots, Mermaid, equations) are **contain-fitted** to keep native aspect ratio.
 
@@ -271,7 +306,7 @@ items:
    - `npm run build:constructs` — hybrid PPTX (layouts + plots)
    - `npm run build:pdf` — Marp PDF path
 
-Slides get a top-right logo and a license footer from `branding` in `tokens.yaml` (unless the deck sets its own `footer:`).
+Slides get a top-right logo and a three-part footer (deck label · optional classification badge · page) from `branding` / frontmatter.
 
 ## Project layout
 
@@ -279,11 +314,14 @@ Slides get a top-right logo and a license footer from `branding` in `tokens.yaml
 themes/scientific/tokens.yaml   # design tokens (also themes/light/)
 assets/brand/logo.svg           # generated logo
 decks/demo.md                   # canonical demo
-decks/examples/                 # extra example decks
+decks/examples/                 # extra example decks (+ template-gallery)
 data/*.csv                      # plot + table sources
 mermaid/*.mmd                   # diagram sources
 lib/ir/                         # markdown → IR → marp | pptxgenjs
-lib/constructs/                 # layouts, fit engine, KaTeX math, primitives
+lib/constructs/                 # layouts, fit, flex spacing, KaTeX, primitives
+lib/constructs/layouts/         # catalog + smartart packs
+lib/constructs/layout-flex.mjs  # responsive stack / flex allocate
+lib/constructs/packs.mjs        # core / consulting / scientific packs
 lib/charts/                     # Chart.js CSV plots
 bin/ppt-gen.mjs                 # CLI
 examples/                       # committed PPTX / PDF previews

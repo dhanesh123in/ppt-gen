@@ -1,18 +1,16 @@
 # One YAML File to Rule Your Slides: Building a Design System for Markdown Presentations
 
-*Markdown slides, Chart.js plots, one YAML design system — no PowerPoint required.*
-
-![Revenue trend slide from the quarterly-report example deck](../examples/quarterly-report.002.png)
+*Fillable SmartArt-style layouts, Chart.js plots, and one YAML design system — native PowerPoint out.*
 
 ---
 
 Most presentation tools ask you to choose between two bad options.
 
-Option one: click through a GUI until the chart colors almost match the slide background. Option two: export a matplotlib figure, paste it into Keynote, resize it by eye, and hope nobody notices the font is wrong.
+Option one: click through a GUI until the chart colors almost match the slide background. Option two: export a figure, paste it into Keynote, resize it by eye, and hope nobody notices the font is wrong. PowerPoint SmartArt is a third trap: the shapes look standardized until you need a real consulting or science argument on the page.
 
 If you work with data — quarterly reviews, architecture walkthroughs, research updates — you have probably lived this. The slide deck is the deliverable everyone sees. The notebook or script that produced the numbers is the source of truth. And nothing connects them.
 
-I built **ppt-gen** to close that gap: markdown slides you can edit by hand, programmatic charts and tables from real data, and one design token file that keeps everything visually consistent. The build CLI is Node ESM (`bin/ppt-gen.mjs`); plots use Chart.js.
+I built **ppt-gen** to close that gap: markdown you can edit by hand, programmatic charts and tables from real data, and one design token file that keeps everything visually consistent. The product surface is **constructs PPTX** (pptxgenjs layouts). Plots use Chart.js; equations use KaTeX; Marp remains an optional PDF path.
 
 ---
 
@@ -21,17 +19,18 @@ I built **ppt-gen** to close that gap: markdown slides you can edit by hand, pro
 I wanted a pipeline with a few non-negotiable properties:
 
 1. **Editable source** — slides as text, version-controlled, diffable
-2. **Programmatic assets** — plots and tables generated from CSVs and scripts, not screenshots
-3. **One visual language** — the same accent color on a line chart, a table header, and a Mermaid box
-4. **Sensible output** — PDF is fine; I do not need a live animation runtime
+2. **Programmatic assets** — plots and tables generated from CSVs, not screenshots
+3. **One visual language** — the same accent on a line chart, a RACI cell, and a Mermaid box
+4. **Standardized argument layouts** — process, overlap, ownership, maturity — filled from YAML, not dragged in SmartArt
+5. **Native PowerPoint out** — clients open `.pptx`; PDF is optional
 
 I explicitly did *not* want:
 
-- `python-pptx` choreography (layout XML by hand)
+- Hand-authored slide XML
 - Quarto or notebook-to-slide magic that hides the slide layer
 - A WYSIWYG tool that breaks the moment you regenerate a chart
 
-[Marp](https://marp.app/) was the right foundation: Markdown in, PDF out, themeable with CSS. What Marp does not give you out of the box is a bridge to Chart.js, CSV tables, and Mermaid that shares a single design system. That is what ppt-gen adds.
+[Marp](https://marp.app/) is still useful for simple content decks and PDF. What ppt-gen adds on top is a shared token system, Chart.js / Mermaid / KaTeX bridges, and a catalog of consulting and scientific layouts that render as real shapes in PowerPoint.
 
 ---
 
@@ -61,68 +60,82 @@ typography:
     legend_pt: 16
 
 branding:
-  footer: "Slides CC BY-SA 4.0 · Code MIT"
+  footer: "Acme · Q3 Strategy"
+  classification: Confidential   # center footer badge
+  # logo: acme-mark.png
 ```
 
 Run `npm run theme:compile` and that one file becomes:
 
-- **Marp CSS** — slide layout, typography, table styles, logo placement
+- **Marp CSS** — typography and logo placement for the PDF path
 - **Chart defaults** — series colors, fonts, and canvas size for Chart.js plots
 - **Mermaid config** — `themeVariables` for diagram rendering
+- **Constructs theme** — the same colors and branding painted by pptxgenjs
 
-Change the accent from coral to blue, recompile, rebuild the deck. Every surface updates together. No hunting through three tools.
+Change the accent from coral to blue, recompile, rebuild the deck. Every surface updates together.
+
+Deck frontmatter can override logo size, `footerLabel`, and `classification` without forking a theme.
 
 ---
 
-## Authoring slides: Markdown plus directives and layouts
+## Authoring: directives plus layout blocks
 
-A deck is ordinary Marp markdown with small placeholders where assets belong:
+A deck is markdown with small placeholders where assets belong, plus fenced `::: layout` blocks for structured slides:
 
 ```markdown
 ---
-marp: true
 theme: scientific
-engine: auto
-paginate: true
+engine: constructs
+footerLabel: "PRODUCT  ·  DATA"
+classification: Internal Only
 title: Q1 Results
 ---
 
-# Q1 Results
-Revenue review — generated by ppt-gen
+::: layout cover
+eyebrow: Results
+title: Q1 Results
+subtitle: Revenue review — generated by ppt-gen
+chip: Q1
+panel: stats
+:::
 
 ---
 
-## Revenue trend
-
-{{plot:quarterly | type=line | x=month | y=revenue_m}}
-
-Revenue grew **12%** YoY in the latest quarter.
-
----
-
-## Regional breakdown
-
-{{table:regions | max_rows=8}}
-
----
-
-## Pipeline architecture
-
-{{mermaid:architecture}}
+::: layout chevron
+title: How we ship the narrative
+items:
+  - { label: Discover, detail: Frame the problem }
+  - { label: Diagnose, detail: Drivers & evidence }
+  - { label: Deliver, detail: Pilot → scale }
+:::
 ```
 
-That is the data / diagram surface:
+Data / diagram directives:
 
 | Directive | What it does |
 |-----------|--------------|
 | `{{plot:name \| type=line\|bar \| x=… \| y=…}}` | Chart.js PNG from `data/<name>.csv` |
-| `{{table:name}}` | Renders CSV rows as a styled markdown table |
-| `{{mermaid:name}}` | Pre-renders a `.mmd` file to PNG/SVG via Mermaid CLI |
+| `{{table:name}}` | CSV → table |
+| `{{mermaid:name}}` | Pre-renders a `.mmd` file via Mermaid CLI |
 | `$$…$$` / `$…$` | KaTeX → PNG (Chrome screenshot) |
 
-For argument / org / KPI slides, use fenced `::: layout <name>` blocks (roadmap, matrix2x2, big-number, hierarchy, equation, …). With `engine: auto`, those decks render through **pptxgenjs**; plain Marp markdown still works for content-only decks.
+Layouts share an item model (`label` / `detail` / `value`). SmartArt-style packs include `chevron`, `stair`, `venn-2`, and `raci` (marks by role/activity **name**). Placement uses a small flex allocator so title gaps, shape sizes, and tables stay readable as content changes.
 
-The preprocessor expands directives before Marp or the constructs engine runs. You never hand-maintain image paths or worry about stale charts.
+With `engine: auto`, any deck that contains `::: layout` renders through **pptxgenjs**; plain markdown can still go through Marp.
+
+---
+
+## Template packs
+
+Layouts are grouped so authors pick a vocabulary, not a grab bag:
+
+| Pack | Focus |
+|------|--------|
+| **core** | Cover, section, split, lists, media |
+| **consulting** | Matrix, roadmap, swimlane, chevron, stair, venn, RACI, waterfall… |
+| **scientific** | Equation, hierarchy, figure/chart focus, results KPIs |
+
+The [template gallery](../decks/examples/template-gallery.md) is the cookbook — comments in the YAML show the canonical shape for each SmartArt layout. Download [template-gallery.pptx](../examples/template-gallery.pptx).
 
 ---
 
@@ -135,9 +148,9 @@ CSV columns become charts without a hand-written Chart.js module for every serie
 {{plot:regions | type=bar | x=region | y=revenue_m | slot=half}}
 ```
 
-`SlideContext` reads the same tokens as the slide theme: figure size comes from layout slots (`full`, `half`, `square`), colors from the series palette, fonts from the plot typography block. Charts keep a readable ~2.2:1 aspect and are contain-fitted on the slide so labels stay legible.
+`SlideContext` reads the same tokens as the slide theme: figure size from layout slots (`full`, `half`, `square`), colors from the series palette, fonts from plot typography. Charts keep a readable ~2.2:1 aspect and are contain-fitted on the slide.
 
-Caching is content-addressed: if the CSV, options, or tokens have not changed, the PNG is reused. Iterating on slide copy stays fast.
+Caching is content-addressed: if the CSV, options, or tokens have not changed, the PNG is reused.
 
 ---
 
@@ -150,50 +163,44 @@ npm run build:constructs
 ```
 
 ```bash
-node bin/ppt-gen.mjs all decks/demo.md
+node bin/ppt-gen.mjs constructs decks/examples/template-gallery.md
 node bin/ppt-gen.mjs constructs decks/examples/chat-product.md
 ```
 
 Under the hood:
 
 1. **Compile themes** — `tokens.yaml` → CSS, mermaid.json, generated logo
-2. **Preprocess** — expand directives, inject license footer from branding tokens
-3. **Render** — pptxgenjs layouts (constructs) and/or Marp CLI → `output/*.pptx` / `.pdf`
+2. **Preprocess** — expand directives; apply branding footer / classification
+3. **Render** — pptxgenjs layouts → `output/*.pptx` (optional Marp PDF)
 
-The deck source stays in `decks/`. Generated assets land in `assets/plots/`, `assets/diagrams/`, `assets/math/`, and a build cache (all gitignored). The markdown and tokens are what you commit.
+The deck source stays in `decks/`. Generated assets land in `assets/plots/`, `assets/diagrams/`, `assets/math/` (gitignored). Markdown and tokens are what you commit.
 
 ---
 
 ## What the output looks like
 
-The [demo](../decks/demo.md) deck includes:
+The [demo](../decks/demo.md) and gallery decks include:
 
-- A **cover** layout with a themed RHS panel
+- **Cover / section / closing** chrome with pack-aware panels
+- **SmartArt packs** — chevron process, stair maturity, venn overlap, RACI ownership
 - **Charts and tables** from `data/*.csv`
-- An **architecture diagram** from `mermaid/architecture.mmd`
-- **Roadmap / matrix / swimlane** argument layouts via `::: layout`
-- Display **equations** via KaTeX
-- A **license footer** on every slide (CC BY-SA for decks, MIT for code)
+- **Architecture diagrams** from Mermaid
+- **Equations** via KaTeX
+- **Brand chrome** — top-right logo; footer = deck label · classification badge · page number
 
-Download [demo.pptx](../examples/demo.pptx) or browse more examples under [`decks/examples/`](../decks/examples/) (chat product, MoE LLMs, apparel markdown). Preview frames from an earlier quarterly build:
-
-| Title | Revenue trend |
-| :---: | :---: |
-| ![Title slide](../examples/quarterly-report.001.png) | ![Revenue trend](../examples/quarterly-report.002.png) |
-
-Also available: [quarterly-report.pdf](../examples/quarterly-report.pdf).
+Download [demo.pptx](../examples/demo.pptx) or [template-gallery.pptx](../examples/template-gallery.pptx). More narratives under [`decks/examples/`](../decks/examples/) (chat product, MoE LLMs, apparel markdown).
 
 ---
 
 ## Details that matter in practice
 
-**Title slides vs. content slides.** Content slides top-align titles like PowerPoint section headers. Title slides stay vertically centered. That came down to Marp theme CSS — flex layout, `place-content: start`, and a `@theme` directive that must be on its own line (a subtle gotcha that caused the default theme to load instead of yours).
+**Logo and classification.** Drop a mark in `assets/brand/` (or set `branding.logo` / frontmatter `logo:`). Set `classification: Confidential` (or `Internal Only`) for a center footer badge. Use `logo: false` to hide the mark.
 
-**Logo without broken paths.** Drop a custom SVG/PNG in `assets/brand/` (or set `branding.logo` / frontmatter `logo:`). The file is embedded in Marp CSS as a data URI and painted on pptxgenjs slides; omit it to keep the generated mark.
+**Responsive placement.** Title/subtitle spacing and SmartArt stacks go through a flex helper (`basis` / `min` / `max` / `grow`) so dense and sparse decks do not share one brittle pixel recipe.
 
-**Offline diagrams.** Mermaid is pre-rendered with `@mermaid-js/mermaid-cli`, themed from the same tokens. No live JS in the PDF.
+**Offline diagrams.** Mermaid is pre-rendered with `@mermaid-js/mermaid-cli`, themed from the same tokens.
 
-**New themes in minutes.** Copy `themes/scientific` (or `themes/light`) to `themes/acme`, edit `tokens.yaml`, compile, set `theme: acme` in frontmatter. Decks can also override `colors` / `typography` / `space` inline.
+**New themes in minutes.** Copy `themes/scientific` (or `themes/light`) to `themes/acme`, edit `tokens.yaml`, compile, set `theme: acme`. Decks can also override `colors` / `typography` / `space` inline.
 
 ---
 
@@ -202,9 +209,9 @@ Also available: [quarterly-report.pdf](../examples/quarterly-report.pdf).
 ppt-gen fits if you:
 
 - Already live in Markdown, JavaScript/Node, and git
-- Ship recurring decks (quarterly metrics, eng reviews, course material)
-- Care that charts and slides look like they came from the same template
-- Want PDF output without maintaining a `.pptx` by hand
+- Ship recurring decks (strategy reviews, eng deep-dives, course material)
+- Want consulting/scientific visuals that stay consistent across authors
+- Need `.pptx` without maintaining the file by hand
 
 It is probably not for you if you need slide transitions, embedded video, or a non-technical co-author who will only touch PowerPoint.
 
@@ -212,14 +219,12 @@ It is probably not for you if you need slide transitions, embedded video, or a n
 
 ## What I would do next
 
-A few natural extensions:
-
-- More layout plugins (and a small authoring guide per layout)
+- More pack layouts (and keep the gallery as the authoring guide)
 - CI that rebuilds example decks on every PR
-- A `tokens.yaml` linter that catches contrast and font-size issues before render
+- A `tokens.yaml` linter for contrast and type scale
 - Stronger equation cropping / DPI options for print
 
-The architecture is intentionally boring: tokens compile to artifacts, a preprocessor expands directives, Marp or pptxgenjs renders. Boring pipelines are easy to extend.
+The architecture stays boring on purpose: tokens compile to artifacts, a preprocessor expands directives, pptxgenjs (or Marp) renders. Boring pipelines are easy to extend.
 
 ---
 
@@ -232,14 +237,15 @@ npm install
 npm run theme:compile
 npm run build:constructs
 open output/demo.pptx
+# or: node bin/ppt-gen.mjs constructs decks/examples/template-gallery.md
 ```
 
 Source and examples: [github.com/dhanesh123in/ppt-gen](https://github.com/dhanesh123in/ppt-gen)
 
 Code is [MIT](../LICENSE). Slide content is [CC BY-SA 4.0](../decks/SLIDES_LICENSE).
 
-If you have fought the copy-paste chart workflow, this might be the presentation layer you wanted sitting next to your data scripts all along.
+If you have fought the copy-paste chart workflow — or SmartArt that almost says what you mean — this might be the presentation layer you wanted sitting next to your data scripts all along.
 
 ---
 
-*Questions or ideas? [Open an issue](https://github.com/dhanesh123in/ppt-gen/issues) or adapt the tokens for your own brand. The demo deck is meant to be forked, not admired from a distance.*
+*Questions or ideas? [Open an issue](https://github.com/dhanesh123in/ppt-gen/issues) or adapt the tokens for your own brand. The demo and gallery decks are meant to be forked, not admired from a distance.*
