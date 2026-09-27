@@ -209,7 +209,8 @@ The [demo](../decks/demo.md) and gallery decks include:
 
 - **Cover / section / closing** chrome with pack-aware panels
 - **SmartArt packs** — chevron process, stair maturity, venn overlap, RACI ownership
-- **Charts and tables** from `data/*.csv`
+- **Compose** — multiple layouts on one slide (`cols-2`, `main-side`, …)
+- **Charts and tables** from `data/*.csv` (including `hbar` / stacked and native `media.table`)
 - **Architecture diagrams** from Mermaid
 - **Equations** via KaTeX
 - **Brand chrome** — top-right logo; footer = deck label · classification badge · page number
