@@ -56,8 +56,16 @@ typography:
     heading_px: 32
     body_px: 22
   plot:
-    tick_pt: 16
-    legend_pt: 16
+    base_pt: 22
+    tick_pt: 20
+    legend_pt: 18
+
+table:
+  header_bg: "{colors.series.0}"
+  # header_fg auto-contrasted when omitted
+
+plot:
+  dpi: 288   # Chart.js devicePixelRatio ≈ dpi/96 (min 3×)
 
 branding:
   footer: "Acme · Q3 Strategy"
@@ -108,18 +116,35 @@ items:
   - { label: Diagnose, detail: Drivers & evidence }
   - { label: Deliver, detail: Pilot → scale }
 :::
+
+---
+
+::: layout compose
+title: Snapshot
+arrangement: cols-2
+slots:
+  - layout: big-number
+    title: KPIs
+    items:
+      - { label: NPS, value: "+12" }
+  - layout: chevron
+    title: Next steps
+    items:
+      - { label: Pilot }
+      - { label: Scale }
+:::
 ```
 
 Data / diagram directives:
 
 | Directive | What it does |
 |-----------|--------------|
-| `{{plot:name \| type=line\|bar \| x=… \| y=…}}` | Chart.js PNG from `data/<name>.csv` |
-| `{{table:name}}` | CSV → table |
+| `{{plot:name \| type=line\|bar\|hbar \| x=… \| y=… \| stacked=true}}` | Chart.js PNG from `data/<name>.csv` |
+| `{{table:name}}` | CSV → table (Marp) or native PPTX on layout slides via `media: { table: … }` |
 | `{{mermaid:name}}` | Pre-renders a `.mmd` file via Mermaid CLI |
 | `$$…$$` / `$…$` | KaTeX → PNG (Chrome screenshot) |
 
-Layouts share an item model (`label` / `detail` / `value`). SmartArt-style packs include `chevron`, `stair`, `venn-2`, and `raci` (marks by role/activity **name**). Placement uses a small flex allocator so title gaps, shape sizes, and tables stay readable as content changes.
+Layouts share an item model (`label` / `detail` / `value`). SmartArt-style packs include `chevron`, `stair`, `venn-2`, and `raci` (marks by role/activity **name**). `compose` places several layouts on one slide. Placement uses a small flex allocator so title gaps, shape sizes, and tables stay readable as content changes.
 
 With `engine: auto`, any deck that contains `::: layout` renders through **pptxgenjs**; plain markdown can still go through Marp.
 
@@ -145,10 +170,11 @@ CSV columns become charts without a hand-written Chart.js module for every serie
 
 ```markdown
 {{plot:quarterly | type=line | x=month | y=revenue_m}}
-{{plot:regions | type=bar | x=region | y=revenue_m | slot=half}}
+{{plot:regions | type=hbar | x=region | y=revenue_m}}
+{{plot:channels | type=bar | x=channel | y=share_pct,nps | stacked=true | slot=half}}
 ```
 
-`SlideContext` reads the same tokens as the slide theme: figure size from layout slots (`full`, `half`, `square`), colors from the series palette, fonts from plot typography. Charts keep a readable ~2.2:1 aspect and are contain-fitted on the slide.
+`SlideContext` reads the same tokens as the slide theme: figure size from layout slots (`full`, `half`, `square`), colors from the series palette, fonts from plot typography, and `plot.dpi` for a sharp multi-density PNG. Charts keep a readable ~2.2:1 aspect and are contain-fitted on the slide.
 
 Caching is content-addressed: if the CSV, options, or tokens have not changed, the PNG is reused.
 
@@ -200,7 +226,7 @@ Download [demo.pptx](../examples/demo.pptx) or [template-gallery.pptx](../exampl
 
 **Offline diagrams.** Mermaid is pre-rendered with `@mermaid-js/mermaid-cli`, themed from the same tokens.
 
-**New themes in minutes.** Copy `themes/scientific` (or `themes/light`) to `themes/acme`, edit `tokens.yaml`, compile, set `theme: acme`. Decks can also override `colors` / `typography` / `space` inline.
+**New themes in minutes.** Copy `themes/scientific` (or `themes/light`) to `themes/acme`, edit `tokens.yaml`, compile, set `theme: acme`. Decks can also override `colors` / `typography` / `space` / `table` / `plot` inline.
 
 ---
 
