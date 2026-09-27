@@ -82,18 +82,39 @@ size: 16:9
 
 ### Directives (plots, tables, diagrams, math)
 
+Drop a CSV into [`data/`](data/) (header row required). Reference it by stem name:
+
 ```markdown
 {{plot:quarterly | type=line | x=month | y=revenue_m}}
+{{plot:regions | type=hbar | x=region | y=revenue_m}}
+{{plot:channels | type=bar | x=channel | y=share_pct,nps | stacked=true}}
 {{table:regions | max_rows=8}}
 {{mermaid:architecture}}
 
 $$L_{t+1} = L_t + \alpha (R_t - L_t)$$
 ```
 
-- Plots: `data/<name>.csv` → Chart.js PNG (`type=line|bar`, `x=`, `y=`, `slot=full|half|square`)
-- Tables: CSV → markdown / PPTX tables
-- Mermaid: `mermaid/<name>.mmd`
-- Display/inline math: `$$…$$` / `$…$` (KaTeX → PNG)
+**CSV → chart / table workflow**
+
+1. Add `data/<name>.csv`
+2. Reference `{{plot:name}}` / `{{table:name}}` (or layout `media:` below)
+3. Rebuild: `node bin/ppt-gen.mjs constructs decks/your-deck.md`
+
+| Kind | Options | Output |
+|------|---------|--------|
+| Plots | `type=line\|bar\|hbar`, `x=`, `y=` (comma series), `stacked=true`, `slot=full\|half\|square` | Chart.js PNG |
+| Tables | `max_rows=N` | Markdown (Marp) or native PPTX table |
+| Mermaid | `mermaid/<name>.mmd` | PNG |
+| Math | `$$…$$` / `$…$` | KaTeX PNG |
+
+On layout slides, plots and CSV tables attach the same way:
+
+```yaml
+media: { plot: regions, type: bar, x: region, y: revenue_m }
+media: { plot: channels, type: hbar, x: channel, y: share_pct, stacked: true }
+media: { table: regions, max_rows: 6 }   # → native PPTX table in the media pane
+csv: regions                             # table-focus / full-bleed table
+```
 
 ### Layout blocks
 
@@ -223,6 +244,17 @@ Layouts are grouped in [`lib/constructs/packs.mjs`](lib/constructs/packs.mjs):
 
 Layouts live in [`lib/constructs/layouts/`](lib/constructs/layouts/) (`catalog.mjs`, `smartart.mjs`). Placement uses the fit + flex engines ([`fit.mjs`](lib/constructs/fit.mjs), [`layout-flex.mjs`](lib/constructs/layout-flex.mjs)).
 
+**Spacing & align knobs (experience-friendly defaults)**
+
+| Knob | Where | Default |
+|------|--------|---------|
+| `theme.space.*` | tokens YAML / frontmatter | `sm/md/lg`, `cardGap`, `minFont`/`maxFont`, `coverTitleSubGap`/`coverSubChipGap`, `titleSubGap`, `gapAfterChrome` |
+| `align` / `vAlign` | layout or compose slot | nested → `start`; standalone → `center` |
+| `gap` | `compose` | `space.lg` (24) |
+| Cover `titleSubGap` / `subChipGap` | cover YAML | from `space.cover*` |
+
+Content start Y is computed from title/subtitle wrap (`titleChromeMetrics`); `space.titleBand` is a fallback floor only—not a fixed chrome height.
+
 Images (plots, Mermaid, equations) are **contain-fitted** to keep native aspect ratio.
 
 ## Themes
@@ -290,12 +322,13 @@ Use any of `image`, `picture`, `photo`, or `media` (string path or `{ path | plo
 | Layout | How to attach a picture |
 |--------|-------------------------|
 | `cover` | `panel: photo` + `image: assets/hero.png` |
-| `split` / `split-reverse` | `media: assets/photo.jpg` or `media: { plot: regions, type: bar, … }` |
-| `title-body` | optional `image:` → text left / picture right |
+| `split` / `split-reverse` | `media: assets/photo.jpg`, `media: { plot: … }`, or `media: { table: regions }` |
+| `title-body` | optional `image:` / `media: { table: … }` → text left / media right |
+| `table-focus` | `media: { table: csv_name }` or `csv: name` |
 | `callout` | optional `image:` beside the quote |
 | `section` | optional `image:` under the title |
 | `figure-focus` / `chart-callout` | `media:` / `image:` fills the content area |
-| `list-cards` | per-item `image:` thumbnail |
+| `list-cards` | per-item `image:` thumbnail; optional `signals:` strip under cards |
 
 Example:
 

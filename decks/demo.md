@@ -124,6 +124,13 @@ items:
   - label: RETAIN
     detail: Churn early warning · Expansion plays
     color: lime
+signalsLabel: Shared decision signals
+signals:
+  - Identity
+  - Product context
+  - Channel state
+  - Inventory / capacity
+  - Experiment exposure
 :::
 
 ---
@@ -157,9 +164,23 @@ items:
   - Channel mix still web-heavy
 media:
   plot: regions
-  type: bar
+  type: hbar
   x: region
   y: revenue_m
+:::
+
+---
+
+::: layout split
+title: Same numbers as a table
+subtitle: media.table loads CSV into a native PPTX table
+items:
+  - Drop CSVs in data/
+  - Reference by stem name
+  - Rebuild the deck
+media:
+  table: regions
+  max_rows: 6
 :::
 
 ---

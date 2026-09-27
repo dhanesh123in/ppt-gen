@@ -53,11 +53,16 @@ space:
   contentPad: 42
   cardGap: 24
   minCardH: 140
+  # Content Y is from titleChromeMetrics (dynamic). titleBand is a docs/fallback floor only.
   titleBand: 100
   footerBand: 48
   minFont: 12
-  maxFont: 18
+  maxFont: 22
   maxCols: 4
+  titleSubGap: 28
+  gapAfterChrome: 20
+  coverTitleSubGap: 36
+  coverSubChipGap: 36
 
 branding:
   footer: "Slides CC BY-SA 4.0 · Code MIT"
