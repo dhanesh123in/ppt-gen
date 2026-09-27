@@ -73,10 +73,14 @@ paginate: true
 size: 16:9
 # Optional overrides (merged onto the theme):
 # colors: { background: "#1a1a2e", foreground: "#eaeaea", accent: "#e94560" }
+# table: { header_bg: "#4e79a7", header_fg: "#FFFFFF" }  # native + Marp tables
+# plot: { dpi: 288 }   # Chart.js devicePixelRatio ≈ dpi/96 (min 3× for sharp axis labels)
 # typography: { slide: { title_px: 48, heading_px: 30, body_px: 18 } }
 # space: { cardGap: 24, titleBand: 100 }
 ---
 ```
+
+Slide fill comes from `colors.background` (theme or frontmatter). Table header fill/text use `table.header_bg` / optional `table.header_fg` (auto-contrasted when omitted). There is no per-slide background override yet—deck-wide only.
 
 `engine: auto` uses **pptxgenjs layouts** when the deck has any `::: layout` / `::: construct` block; otherwise Marp.
 
