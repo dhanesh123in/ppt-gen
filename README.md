@@ -373,6 +373,8 @@ items:
 
 ## Workflow
 
+See [CONTRIBUTING.md](CONTRIBUTING.md) for GitFlow branching (`develop` + `feature/*`).
+
 1. Edit `themes/<name>/tokens.yaml` (and optional frontmatter overrides)
 2. `npm run theme:compile`
 3. Author `decks/*.md` with layouts + `{{plot}}` / `{{table}}` / `{{mermaid}}` / math
