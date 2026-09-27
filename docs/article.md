@@ -214,7 +214,7 @@ The [demo](../decks/demo.md) and gallery decks include:
 - **Equations** via KaTeX
 - **Brand chrome** — top-right logo; footer = deck label · classification badge · page number
 
-Download [demo.pptx](../examples/demo.pptx) or [template-gallery.pptx](../examples/template-gallery.pptx). More narratives under [`decks/examples/`](../decks/examples/) (chat product, MoE LLMs, apparel markdown).
+Download [demo.pptx](../examples/demo.pptx) or [template-gallery.pptx](../examples/template-gallery.pptx). More narratives under [`decks/examples/`](../decks/examples/) (roadmap compose demo, chat product, MoE LLMs, apparel markdown).
 
 ---
 
