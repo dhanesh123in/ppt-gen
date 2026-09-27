@@ -32,10 +32,10 @@ typography:
     body_px: 18
     caption_px: 14
   plot:
-    base_pt: 18
-    title_pt: 22
-    tick_pt: 16
-    legend_pt: 16
+    base_pt: 22
+    title_pt: 24
+    tick_pt: 20
+    legend_pt: 18
   mermaid:
     font_px: 18
 
@@ -53,11 +53,16 @@ space:
   contentPad: 42
   cardGap: 24
   minCardH: 140
+  # Content Y is from titleChromeMetrics (dynamic). titleBand is a docs/fallback floor only.
   titleBand: 100
   footerBand: 48
   minFont: 12
-  maxFont: 18
+  maxFont: 22
   maxCols: 4
+  titleSubGap: 28
+  gapAfterChrome: 20
+  coverTitleSubGap: 36
+  coverSubChipGap: 36
 
 branding:
   footer: "Slides CC BY-SA 4.0 · Code MIT"
@@ -70,7 +75,7 @@ branding:
   logo_right_px: 36
 
 plot:
-  dpi: 160
+  dpi: 288
   linewidth: 2.0
   markersize: 6
   grid_alpha: 0.2
@@ -82,6 +87,7 @@ plot:
 
 table:
   header_bg: "{colors.series.0}"
+  # header_fg: "#FFFFFF"   # optional; auto-contrasted when omitted
   zebra_bg: "{colors.border}"
   font_px: 18
 

@@ -124,26 +124,33 @@ items:
   - label: RETAIN
     detail: Churn early warning · Expansion plays
     color: lime
+signalsLabel: Shared decision signals
+signals:
+  - Identity
+  - Product context
+  - Channel state
+  - Inventory / capacity
+  - Experiment exposure
 :::
 
 ---
 
-::: layout big-number
-title: Pilot outcomes in the first 90 days
-subtitle: Directional readouts from the reactivation squad
-items:
-  - label: Lift
-    value: +9%
-    detail: Incremental reactivation
-  - label: Speed
-    value: 11d
-    detail: Idea → live holdout
-  - label: Coverage
-    value: 64%
-    detail: Identified journeys
-  - label: Waste
-    value: −18%
-    detail: Low-margin offers
+::: layout compose
+title: Pilot readouts and next moves
+arrangement: header-body
+slots:
+  - layout: big-number
+    title: First 90 days
+    items:
+      - { label: Lift, value: +9%, detail: Incremental reactivation }
+      - { label: Speed, value: 11d, detail: Idea → live holdout }
+      - { label: Waste, value: −18%, detail: Low-margin offers }
+  - layout: chevron
+    title: Scale path
+    items:
+      - { label: Prove, detail: Holdouts in 2 journeys }
+      - { label: Productize, detail: Playbooks + owners }
+      - { label: Scale, detail: Coverage → 80% }
 :::
 
 ---
@@ -157,9 +164,23 @@ items:
   - Channel mix still web-heavy
 media:
   plot: regions
-  type: bar
+  type: hbar
   x: region
   y: revenue_m
+:::
+
+---
+
+::: layout split
+title: Same numbers as a table
+subtitle: media.table loads CSV into a native PPTX table
+items:
+  - Drop CSVs in data/
+  - Reference by stem name
+  - Rebuild the deck
+media:
+  table: regions
+  max_rows: 6
 :::
 
 ---

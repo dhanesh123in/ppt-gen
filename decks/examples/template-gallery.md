@@ -15,14 +15,14 @@ eyebrow: Template packs
 title: |
   Smart visuals for
   consulting & science
-subtitle: Standardized mjs layouts — fill YAML, get presentation-grade shapes PowerPoint SmartArt rarely nails.
+subtitle: Fill YAML, get presentation-grade shapes that PowerPoint SmartArt rarely nails.
 chip: GALLERY
 panel: stats
 panelCaption: LAYOUT VOCABULARY
 stats:
-  - { label: Consulting, value: "chevron · stair · venn · raci · matrix" }
-  - { label: Scientific, value: "equation · hierarchy · big-number" }
-  - { label: Chrome, value: "logo · footer · classification tag" }
+  - { label: Consulting, value: "chevron · stair · venn · raci" }
+  - { label: Scientific, value: "equation · hierarchy · KPI" }
+  - { label: Chrome, value: "logo · footer · classification" }
 :::
 
 ---
@@ -146,9 +146,92 @@ items:
 
 ---
 
+# arrangement: cols-2 | cols-3 | rows-2 | rows-3 | grid-2x2 | main-side | side-main | header-body
+::: layout compose
+title: Compose — two-up (columns)
+arrangement: cols-2
+slots:
+  - layout: big-number
+    title: Outcomes
+    items:
+      - { label: Latency, value: "−38%", detail: p50 }
+      - { label: Quality, value: "+0.12", detail: Win rate }
+  - layout: chevron
+    title: Path
+    align: start
+    items:
+      - { label: Frame, detail: Problem + options }
+      - { label: Prove, detail: Pilot evidence }
+      - { label: Scale, detail: Rollout plan }
+:::
+
+---
+
+::: layout compose
+title: Compose — side by side
+arrangement: cols-2
+slots:
+  - layout: matrix2x2
+    title: Portfolio
+    axes: { x: Ease, y: Impact }
+    items:
+      - { label: Onboarding, x: high, y: high }
+      - { label: Rewrite, x: low, y: high }
+  - layout: raci
+    title: Owners
+    roles: [PM, Eng]
+    activities: [Spec, Build]
+    marks:
+      - { activity: Spec, role: PM, value: A }
+      - { activity: Build, role: Eng, value: R }
+:::
+
+---
+
+::: layout compose
+title: Compose — stacked (rows)
+arrangement: rows-2
+slots:
+  - layout: banded-list
+    title: Signals
+    items:
+      - { label: Adoption, value: "+18% WoW in pilot cohort" }
+      - { label: Quality, value: "Win rate +0.12 vs control" }
+      - { label: Cost, value: "p50 inference −11%" }
+  - layout: steps-h
+    title: Next three moves
+    items:
+      - { label: Lock metric, detail: One north-star }
+      - { label: Expand cohort, detail: +2 segments }
+      - { label: Decision gate, detail: Go / hold }
+:::
+
+---
+
+::: layout compose
+title: Compose — main + side stack
+arrangement: main-side
+slots:
+  - layout: venn-2
+    title: Overlap story
+    items:
+      - { label: Product, detail: Reliability }
+      - { label: GTM, detail: Narrative }
+      - { label: Retention, detail: Habit }
+  - layout: big-number
+    title: Signal
+    items:
+      - { label: NPS, value: "+12", detail: Trailing 90d }
+  - layout: callout
+    title: Decision
+    body: Fund the habit-loop bet; pause vanity dashboards.
+:::
+
+---
+
 ::: layout closing
 eyebrow: Next
 title: Author in YAML. Render with ppt-gen.
 subtitle: Pick a pack layout, fill items, regenerate — same visual language every time.
-next: "See README · Template packs (consulting / scientific / core)"
+next: "See README · Template packs (consulting / scientific / core) · compose for multi-panel slides"
 :::

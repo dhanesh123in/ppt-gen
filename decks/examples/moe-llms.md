@@ -119,44 +119,29 @@ items:
 
 ---
 
-::: layout matrix2x2
-title: Design choices
-axes:
-  x: Routing complexity
-  y: Capacity efficiency
-quadrants:
-  tl: Hash / static
-  tr: Learned top-k
-  bl: Dense baseline
-  br: Soft MoE / expert choice
-items:
-  - label: Switch / GShard
-    quadrant: tr
-  - label: Expert Choice
-    quadrant: br
-  - label: Dense LLaMA-style
-    quadrant: bl
-  - label: Token hashing
-    quadrant: tl
-:::
-
----
-
-::: layout big-number
-title: Typical operating points (illustrative)
-items:
-  - label: Experts
-    value: 8–64
-    detail: Per MoE layer
-  - label: Top-k
-    value: 1–2
-    detail: Active per token
-  - label: Params
-    value: 4–10×
-    detail: vs dense iso-FLOP
-  - label: Aux loss
-    value: λ≈0.01
-    detail: Load balance weight
+::: layout compose
+title: Design space and operating points
+arrangement: main-side
+slots:
+  - layout: matrix2x2
+    title: Design choices
+    axes: { x: Routing complexity, y: Capacity efficiency }
+    quadrants: { tl: Hash / static, tr: Learned top-k, bl: Dense, br: Soft MoE }
+    items:
+      - { label: Switch / GShard, x: high, y: high }
+      - { label: Expert Choice, x: high, y: low }
+      - { label: Dense LLaMA-style, x: low, y: low }
+      - { label: Token hashing, x: low, y: high }
+  - layout: big-number
+    title: Operating points
+    items:
+      - { label: Experts, value: 8–64, detail: Per MoE layer }
+      - { label: Top-k, value: 1–2, detail: Active per token }
+  - layout: banded-list
+    title: Watchouts
+    items:
+      - { label: Collapse, value: Router sticks to 1–2 experts }
+      - { label: Imbalance, value: Capacity overflow / drops }
 :::
 
 ---
