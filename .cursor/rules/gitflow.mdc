@@ -1,0 +1,40 @@
+---
+description: GitFlow branching strategy for this repo's SDLC
+alwaysApply: true
+---
+
+# GitFlow (SDLC)
+
+Use classic GitFlow. Do not invent alternate branch naming (e.g. `cursor/…`) for feature work.
+
+## Long-lived branches
+
+| Branch | Role |
+|--------|------|
+| `main` | Production-ready only. Fast-forward or merge from `release/*` / `hotfix/*`. Tag releases. |
+| `develop` | Integration branch. Default base for day-to-day work and PRs. |
+
+Never commit feature work directly to `main` or `develop`.
+
+## Supporting branches
+
+| Type | From | Merge to | Name |
+|------|------|----------|------|
+| Feature | `develop` | `develop` | `feature/<short-kebab-name>` |
+| Release | `develop` | `main` **and** `develop` | `release/x.y.z` |
+| Hotfix | `main` | `main` **and** `develop` | `hotfix/x.y.z` or `hotfix/<short-kebab-name>` |
+
+## Agent / contributor workflow
+
+1. `git checkout develop && git pull`
+2. `git checkout -b feature/<name>` (or `release/…` / `hotfix/…`)
+3. Commit on the supporting branch only
+4. Open a PR **into `develop`** for features; release/hotfix PRs follow the merge targets above
+5. After merge, delete the local and remote supporting branch
+6. Do not reopen a merged feature branch for unrelated work—start a new `feature/*` from updated `develop`
+
+## PRs
+
+- Feature PRs target `develop`
+- Keep the branch focused; one concern per feature branch when practical
+- Do not force-push `main` or `develop` unless the user explicitly requests it
