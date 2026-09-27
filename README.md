@@ -16,6 +16,7 @@ The CLI is **Node ESM** (`bin/ppt-gen.mjs`). Plots come from CSV via Chart.js; e
 |------|--------|--------|
 | Product analytics roadmap (canonical) | [`decks/demo.md`](decks/demo.md) | [**demo.pptx**](examples/demo.pptx) |
 | Template gallery (SmartArt packs) | [`decks/examples/template-gallery.md`](decks/examples/template-gallery.md) | [template-gallery.pptx](examples/template-gallery.pptx) |
+| Compose + journey demo | [`decks/examples/roadmap-demo.md`](decks/examples/roadmap-demo.md) | [roadmap-demo.pptx](examples/roadmap-demo.pptx) |
 | WhatsApp-class chat PRD | [`decks/examples/chat-product.md`](decks/examples/chat-product.md) | [chat-product.pptx](examples/chat-product.pptx) |
 | Mixture-of-Experts LLMs | [`decks/examples/moe-llms.md`](decks/examples/moe-llms.md) | [moe-llms.pptx](examples/moe-llms.pptx) |
 | Apparel retail markdown | [`decks/examples/apparel-markdown.md`](decks/examples/apparel-markdown.md) | [apparel-markdown.pptx](examples/apparel-markdown.pptx) |
@@ -273,6 +274,16 @@ Edit tokens (colors, typography, plot fonts, spacing, branding), then:
 ```bash
 npm run theme:compile
 ```
+
+Useful token groups (also overridable in deck frontmatter):
+
+| Group | Keys | Effect |
+|-------|------|--------|
+| `colors` | `background`, `foreground`, `accent`, `panel*`, `series` | Slide fill, ink, accents, chart series |
+| `table` | `header_bg`, `header_fg` (optional), `zebra_bg`, `font_px` | Native PPTX + Marp table chrome |
+| `plot` | `dpi` (default 288 → 3× raster), `grid_alpha`, line/marker | Chart.js sharpness and stroke |
+| `typography.plot` | `base_pt`, `tick_pt`, `legend_pt`, `title_pt` | Axis titles, ticks, legend |
+| `space` | `cardGap`, `coverTitleSubGap`, `titleSubGap`, … | Layout breathing room |
 
 ### Custom logo
 
